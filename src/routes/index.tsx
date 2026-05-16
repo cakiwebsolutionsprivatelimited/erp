@@ -17,6 +17,7 @@ import Pricing from '@/pages/billing/Pricing';
 import NotFound from '@/pages/error/NotFound';
 import CRMLeadsPage from '@/pages/crm/LeadsPage';
 import ProfileFormPage from '@/pages/settings/ProfileForm';
+import ComponentShowcasePage from '@/pages/dev/ComponentShowcasePage';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
           { path: 'hrms', element: <div className="p-8">HRMS Module</div> },
           { path: 'inventory', element: <div className="p-8">Inventory Module</div> },
           { path: 'billing', element: <div className="p-8">Billing Module</div> },
+          { path: 'dev/components', element: <ComponentShowcasePage /> },
         ],
       },
     ],

@@ -12,7 +12,8 @@ import {
   LogOut,
   UserCircle,
   Briefcase,
-  Layers
+  Layers,
+  Component
 } from 'lucide-react';
 import { cn } from '@/utils';
 
@@ -30,6 +31,7 @@ const navItems = [
   { icon: CreditCard, label: 'Billing', path: '/billing' },
   { icon: Layers, label: 'Pricing', path: '/pricing' },
   { icon: UserCircle, label: 'Profile', path: '/profile' },
+  { icon: Component, label: 'Components', path: '/dev/components' },
   { icon: Settings, label: 'Settings', path: '/settings' },
 ];
 
