@@ -1,64 +1,102 @@
 import React from 'react';
 import { PageContainer, SectionHeader } from '@/components/common/PageLayout';
 import { 
+  StatCard, 
+  KPIGrid, 
+  ActivityFeed, 
+  RecentSales, 
+  RevenueAreaChart, 
+  UserEngagementBarChart,
+  QuickActions,
+  CRMMetrics,
+  InventoryMetrics
+} from '@/components/dashboard';
+import { 
   Users, 
-  TrendingUp, 
   DollarSign, 
-  Briefcase,
-  ArrowUpRight,
-  ArrowDownRight
+  Briefcase, 
+  TrendingUp,
+  Download
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
-const stats = [
-  { label: 'Total Revenue', value: '$128,430', change: '+12.5%', trend: 'up', icon: DollarSign, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
-  { label: 'Active Users', value: '2,420', change: '+18.2%', trend: 'up', icon: Users, color: 'text-blue-500', bg: 'bg-blue-500/10' },
-  { label: 'New Leads', value: '145', change: '-4.3%', trend: 'down', icon: Briefcase, color: 'text-amber-500', bg: 'bg-amber-500/10' },
-  { label: 'Growth Rate', value: '24.8%', change: '+5.4%', trend: 'up', icon: TrendingUp, color: 'text-violet-500', bg: 'bg-violet-500/10' },
+const activities = [
+  { id: '1', type: 'order' as const, title: 'New order received #4023', time: '2 mins ago', status: 'Processing' },
+  { id: '2', type: 'user' as const, title: 'New user registered', time: '1 hour ago' },
+  { id: '3', type: 'alert' as const, title: 'Server storage at 90%', time: '3 hours ago', status: 'Critical' },
+  { id: '4', type: 'comment' as const, title: 'New feedback from Alice', time: '5 hours ago' },
+];
+
+const sales = [
+  { id: '1', name: 'Olivia Martin', email: 'olivia.martin@email.com', amount: '$1,999.00' },
+  { id: '2', name: 'Jackson Lee', email: 'jackson.lee@email.com', amount: '$39.00' },
+  { id: '3', name: 'Isabella Nguyen', email: 'isabella.nguyen@email.com', amount: '$299.00' },
+  { id: '4', name: 'William Kim', email: 'will@email.com', amount: '$99.00' },
+  { id: '5', name: 'Sofia Davis', email: 'sofia.davis@email.com', amount: '$39.00' },
 ];
 
 const Dashboard: React.FC = () => {
   return (
     <PageContainer>
       <SectionHeader 
-        title="Dashboard Overview" 
-        description="Welcome back! Here's what's happening with your business today."
+        title="Enterprise Dashboard" 
+        description="Real-time overview of your business metrics and operations."
         action={
-          <button className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors shadow-sm">
-            Download Report
-          </button>
+          <Button variant="outline" className="shadow-sm">
+            <Download className="mr-2 h-4 w-4" />
+            Export Data
+          </Button>
         }
       />
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <div key={stat.label} className="p-6 bg-background border rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between mb-4">
-              <div className={stat.bg + " p-3 rounded-xl " + stat.color}>
-                <stat.icon size={24} />
-              </div>
-              <div className={`flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-full ${stat.trend === 'up' ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}`}>
-                {stat.trend === 'up' ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
-                {stat.change}
-              </div>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground font-medium">{stat.label}</p>
-              <h3 className="text-2xl font-bold mt-1">{stat.value}</h3>
-            </div>
-          </div>
-        ))}
+      <KPIGrid>
+        <StatCard 
+          title="Total Revenue" 
+          value="$45,231.89" 
+          trend="up" 
+          trendValue="+20.1%" 
+          description="from last month" 
+          icon={DollarSign} 
+        />
+        <StatCard 
+          title="Active Users" 
+          value="+2350" 
+          trend="up" 
+          trendValue="+180.1%" 
+          description="from last month" 
+          icon={Users} 
+        />
+        <StatCard 
+          title="Sales" 
+          value="+12,234" 
+          trend="up" 
+          trendValue="+19%" 
+          description="from last month" 
+          icon={TrendingUp} 
+        />
+        <StatCard 
+          title="Active Projects" 
+          value="+573" 
+          trend="down" 
+          trendValue="-2.5%" 
+          description="since last hour" 
+          icon={Briefcase} 
+        />
+      </KPIGrid>
+
+      <div className="grid gap-6 lg:grid-cols-4">
+        <RevenueAreaChart />
+        <div className="space-y-6">
+          <QuickActions />
+          <UserEngagementBarChart />
+        </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2 p-6 bg-background border rounded-2xl h-[400px] flex items-center justify-center text-muted-foreground border-dashed">
-          <p>Main Chart Placeholder (Revenue Analytics)</p>
-        </div>
-        <div className="p-6 bg-background border rounded-2xl h-[400px] flex flex-col">
-          <h4 className="font-bold mb-4">Recent Activity</h4>
-          <div className="flex-1 border-dashed border rounded-xl flex items-center justify-center text-muted-foreground">
-            <p>Activity Feed Placeholder</p>
-          </div>
-        </div>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <RecentSales sales={sales} />
+        <ActivityFeed activities={activities} />
+        <CRMMetrics />
+        <InventoryMetrics />
       </div>
     </PageContainer>
   );
