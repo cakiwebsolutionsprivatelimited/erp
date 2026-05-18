@@ -1,6 +1,6 @@
 import React from "react"
 import { DataTable } from "../DataTable"
-import { columns, LeadRow } from "./columns"
+import { columns, type LeadRow } from "./columns"
 
 const data: LeadRow[] = [
   { id: "L1", company: "Tech Corp", contact: "Mark Ruffalo", value: 12000, status: "Won", phone: "+1 234 567 890" },

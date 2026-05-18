@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@radix-ui/react-progress';
 import { cn } from '@/utils';
 
 interface MetricProps {

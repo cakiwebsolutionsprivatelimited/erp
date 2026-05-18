@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 
 interface Sale {
   id: string;
@@ -25,7 +24,7 @@ export const RecentSales: React.FC<{ sales: Sale[] }> = ({ sales }) => {
                 {sale.image ? (
                   <img src={sale.image} alt={sale.name} className="h-full w-full object-cover" />
                 ) : (
-                  <AvatarFallback>{sale.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+                  <span>{sale.name.substring(0, 2).toUpperCase()}</span>
                 )}
               </div>
               <div className="flex-1 space-y-1">

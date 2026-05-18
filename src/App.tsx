@@ -1,10 +1,11 @@
 import { Provider } from 'react-redux';
-import { store } from '@/store';
-import { AppRouter } from '@/routes';
+import { store } from './store';
+import { AppRouter } from './routes';
 import { Toaster } from 'sonner';
 import { ModalProvider } from '@/components/modals/ModalProvider';
 
 function App() {
+  console.log('App rendering');
   return (
     <Provider store={store}>
       <AppRouter />

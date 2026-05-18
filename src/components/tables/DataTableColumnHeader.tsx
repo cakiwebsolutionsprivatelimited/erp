@@ -1,4 +1,4 @@
-import { Column } from "@tanstack/react-table"
+import { type Column } from "@tanstack/react-table"
 import { ChevronDown, ChevronUp, ChevronsUpDown, EyeOff } from "lucide-react"
 
 import { cn } from "@/utils"

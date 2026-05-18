@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Mail, Phone, MapPin, Globe, Twitter, Github, Linkedin } from 'lucide-react';
+import { Mail, MapPin, Globe, Code2, X, Briefcase } from 'lucide-react';
 
 export const UserProfileCard: React.FC = () => {
   return (
@@ -42,9 +42,9 @@ export const UserProfileCard: React.FC = () => {
         </div>
 
         <div className="flex justify-center gap-6 pt-4 border-t">
-          <Twitter className="h-5 w-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
-          <Github className="h-5 w-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
-          <Linkedin className="h-5 w-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
+          <X className="h-5 w-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
+          <Code2 className="h-5 w-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
+          <Briefcase className="h-5 w-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
         </div>
       </CardContent>
     </Card>
