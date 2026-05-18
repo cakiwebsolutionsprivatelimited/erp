@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import { createHashRouter, RouterProvider, Navigate } from 'react-router-dom';
 import DashboardLayout from '@/layouts/DashboardLayout';
 import AuthLayout from '@/layouts/AuthLayout';
 import ErrorLayout from '@/layouts/ErrorLayout';
@@ -18,7 +18,7 @@ import CRMLeadsPage from '@/pages/crm/LeadsPage';
 import ProfileFormPage from '@/pages/settings/ProfileForm';
 import ComponentShowcasePage from '@/pages/dev/ComponentShowcasePage';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   // Public Dev Routes (No Auth)
   {
     path: '/dev',

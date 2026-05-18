@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/utils';
 
 interface MetricProps {
-  label: string;
+  label?: string;
   value: number;
   total: number;
   color?: string;

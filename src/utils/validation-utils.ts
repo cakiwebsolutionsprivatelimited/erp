@@ -14,7 +14,7 @@ export const validation = {
     z.string().min(8, { message }),
     
   number: (message: string = "Please enter a valid number") => 
-    z.preprocess((val) => Number(val), z.number({ invalid_type_error: message })),
+    z.preprocess((val) => Number(val), z.number({ message })),
     
   optionalString: z.string().optional().or(z.literal("")),
 }
@@ -26,8 +26,8 @@ export const userSchema = z.object({
   firstName: validation.required("First name is required"),
   lastName: validation.required("Last name is required"),
   email: validation.email(),
-  role: z.enum(["admin", "user", "manager"], {
-    required_error: "Please select a role",
+  role: z.enum(["admin", "user", "manager"] as const, {
+    message: "Please select a role",
   }),
   bio: validation.optionalString,
   notifications: z.boolean().default(true),

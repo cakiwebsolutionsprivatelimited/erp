@@ -10,7 +10,7 @@ interface FormWrapperProps<T extends FieldValues> {
   schema: ZodSchema<T>
   defaultValues: UseFormProps<T>["defaultValues"]
   onSubmit: (values: T) => void | Promise<void>
-  children: (methods: UseFormReturn<T>) => React.ReactNode
+  children: (methods: UseFormReturn<T, any, any>) => React.ReactNode
   submitLabel?: string
   isLoading?: boolean
   className?: string
@@ -26,18 +26,18 @@ export function FormWrapper<T extends FieldValues>({
   className,
 }: FormWrapperProps<T>) {
   const methods = useForm<T>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema as any) as any,
     defaultValues,
   })
 
   return (
     <Form {...methods}>
       <form 
-        onSubmit={methods.handleSubmit(onSubmit)} 
+        onSubmit={methods.handleSubmit(onSubmit as any)} 
         className={className}
       >
         <div className="space-y-8">
-          {children(methods)}
+          {children(methods as any)}
           
           <div className="flex items-center justify-end gap-4 border-t pt-6">
             <Button
