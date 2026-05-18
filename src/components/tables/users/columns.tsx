@@ -1,4 +1,4 @@
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal, Shield, User, Mail, Calendar } from "lucide-react"
 
 import { Button } from "@/components/ui/button"

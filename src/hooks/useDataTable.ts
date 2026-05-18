@@ -1,8 +1,8 @@
 import { useState, useCallback, useMemo } from "react"
 import {
-  PaginationState,
-  SortingState,
-  ColumnFiltersState,
+  type PaginationState,
+  type SortingState,
+  type ColumnFiltersState,
 } from "@tanstack/react-table"
 
 interface UseDataTableProps {

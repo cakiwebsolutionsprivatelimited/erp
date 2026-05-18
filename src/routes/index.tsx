@@ -10,7 +10,6 @@ import Signup from '@/pages/auth/Signup';
 import ForgotPassword from '@/pages/auth/ForgotPassword';
 import ResetPassword from '@/pages/auth/ResetPassword';
 import Dashboard from '@/pages/dashboard/Dashboard';
-import Profile from '@/pages/dashboard/Profile';
 import Settings from '@/pages/settings/Settings';
 import Invoice from '@/pages/billing/Invoice';
 import Pricing from '@/pages/billing/Pricing';
@@ -20,6 +19,26 @@ import ProfileFormPage from '@/pages/settings/ProfileForm';
 import ComponentShowcasePage from '@/pages/dev/ComponentShowcasePage';
 
 const router = createBrowserRouter([
+  // Public Dev Routes (No Auth)
+  {
+    path: '/dev',
+    element: <DashboardLayout />,
+    children: [
+      { path: 'components', element: <ComponentShowcasePage /> },
+    ],
+  },
+  // Auth Routes
+  {
+    path: '/',
+    element: <AuthLayout />,
+    children: [
+      { path: 'login', element: <Login /> },
+      { path: 'signup', element: <Signup /> },
+      { path: 'forgot-password', element: <ForgotPassword /> },
+      { path: 'reset-password', element: <ResetPassword /> },
+    ],
+  },
+  // Protected Dashboard Routes
   {
     path: '/',
     element: <ProtectedRoute />,
@@ -32,26 +51,17 @@ const router = createBrowserRouter([
           { path: 'settings', element: <Settings /> },
           { path: 'invoices', element: <Invoice /> },
           { path: 'pricing', element: <Pricing /> },
-          // Placeholder for other routes
           { path: 'crm', element: <CRMLeadsPage /> },
           { path: 'hrms', element: <div className="p-8">HRMS Module</div> },
           { path: 'inventory', element: <div className="p-8">Inventory Module</div> },
           { path: 'billing', element: <div className="p-8">Billing Module</div> },
-          { path: 'dev/components', element: <ComponentShowcasePage /> },
         ],
       },
     ],
   },
+  // Error Routes
   {
-    element: <AuthLayout />,
-    children: [
-      { path: 'login', element: <Login /> },
-      { path: 'signup', element: <Signup /> },
-      { path: 'forgot-password', element: <ForgotPassword /> },
-      { path: 'reset-password', element: <ResetPassword /> },
-    ],
-  },
-  {
+    path: '*',
     element: <ErrorLayout />,
     children: [
       { path: '404', element: <NotFound /> },

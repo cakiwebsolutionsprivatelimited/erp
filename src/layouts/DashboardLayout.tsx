@@ -24,7 +24,7 @@ const DashboardLayout: React.FC = () => {
         
         {/* Footer */}
         <footer className="py-6 px-8 border-t bg-background/50 text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} Enterprise SaaS. All rights reserved.
+          &copy; {new Date().getFullYear()} Cakiweb Solutions Pvt. Ltd. All rights reserved.
         </footer>
       </div>
     </div>

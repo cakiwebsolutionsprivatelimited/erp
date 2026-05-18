@@ -4,27 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
-import { 
-  Accordion, 
-  AccordionContent, 
-  AccordionItem, 
-  AccordionTrigger 
-} from '@/components/ui/accordion';
+
 import { 
   Tabs, 
   TabsContent, 
   TabsList, 
   TabsTrigger 
 } from '@/components/ui/tabs';
-import { Separator } from '@/components/ui/separator';
-import { 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardFooter, 
-  CardHeader, 
-  CardTitle 
-} from '@/components/ui/card';
 import { 
   UsersTable 
 } from '@/components/tables/users/UsersTable';
@@ -35,7 +21,6 @@ import {
   StatCard, 
   KPIGrid, 
   ActivityFeed, 
-  RecentSales, 
   RevenueAreaChart, 
   QuickActions,
   CRMMetrics
@@ -52,12 +37,6 @@ import { BaseModal } from '@/components/modals/BaseModal';
 import { useModals } from '@/hooks/useModals';
 import { 
   Bell, 
-  Info, 
-  AlertTriangle, 
-  CheckCircle, 
-  Mail, 
-  Lock,
-  Search,
   LayoutDashboard,
   Layers,
   Component,
@@ -66,7 +45,6 @@ import {
   MessageSquare,
   Zap
 } from 'lucide-react';
-import { cn } from '@/utils';
 
 const sections = [
   { id: 'buttons', label: 'Buttons', icon: Zap },
@@ -100,28 +78,6 @@ const ComponentShowcasePage: React.FC = () => {
   return (
     <PageContainer showBreadcrumb={false}>
       <div className="flex flex-col lg:flex-row gap-10">
-        {/* Sidebar Navigation */}
-        <aside className="lg:w-64 shrink-0 h-fit sticky top-24 z-10">
-          <div className="bg-background border rounded-2xl p-4 shadow-sm space-y-1">
-            <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest px-3 mb-4">Design System</p>
-            {sections.map((section) => (
-              <button
-                key={section.id}
-                onClick={() => scrollToSection(section.id)}
-                className={cn(
-                  "w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-all",
-                  activeTab === section.id 
-                    ? "bg-primary text-primary-foreground shadow-md shadow-primary/20" 
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                )}
-              >
-                <section.icon size={18} />
-                {section.label}
-              </button>
-            ))}
-          </div>
-        </aside>
-
         {/* Content Area */}
         <div className="flex-1 space-y-24 pb-24">
           <SectionHeader 

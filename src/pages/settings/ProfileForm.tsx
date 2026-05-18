@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { PageContainer, SectionHeader } from "@/components/common/PageLayout"
 import { FormWrapper } from "@/components/forms/FormWrapper"
 import { FormInput, FormSelect, FormTextarea, FormCheckbox, FormSection } from "@/components/forms/FormComponents"
-import { userSchema, UserFormData } from "@/utils/validation-utils"
+import { userSchema, type UserFormData } from "@/utils/validation-utils"
 import { toast } from "sonner"
 
 const ProfileFormPage: React.FC = () => {

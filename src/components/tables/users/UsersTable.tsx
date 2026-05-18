@@ -1,6 +1,6 @@
 import React from "react"
 import { DataTable } from "../DataTable"
-import { columns, UserRow } from "./columns"
+import { columns, type UserRow } from "./columns"
 
 const data: UserRow[] = [
   { id: "1", name: "John Doe", email: "john@example.com", role: "Admin", status: "Active", lastLogin: "2024-03-15" },
