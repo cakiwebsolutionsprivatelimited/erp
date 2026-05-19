@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { PageContainer, SectionHeader } from '@/components/common/PageLayout';
 import { 
   StatCard, 
@@ -19,6 +19,8 @@ import {
   Download
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useAppSelector, useAppDispatch } from '@/store';
+import { resetSearchQuery } from '@/store/features/searchSlice';
 
 const activities = [
   { id: '1', type: 'order' as const, title: 'New order received #4023', time: '2 mins ago', status: 'Processing' },
@@ -36,6 +38,34 @@ const sales = [
 ];
 
 const Dashboard: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const searchQuery = useAppSelector((state) => state.search.query);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetSearchQuery());
+    };
+  }, [dispatch]);
+
+  const filteredSales = sales.filter(sale => {
+    const query = searchQuery.toLowerCase().trim();
+    if (!query) return true;
+    return (
+      sale.name.toLowerCase().includes(query) ||
+      sale.email.toLowerCase().includes(query) ||
+      sale.amount.toLowerCase().includes(query)
+    );
+  });
+
+  const filteredActivities = activities.filter(activity => {
+    const query = searchQuery.toLowerCase().trim();
+    if (!query) return true;
+    return (
+      activity.title.toLowerCase().includes(query) ||
+      (activity.status && activity.status.toLowerCase().includes(query))
+    );
+  });
+
   return (
     <PageContainer>
       <SectionHeader 
@@ -93,8 +123,8 @@ const Dashboard: React.FC = () => {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <RecentSales sales={sales} />
-        <ActivityFeed activities={activities} />
+        <RecentSales sales={filteredSales} />
+        <ActivityFeed activities={filteredActivities} />
         <CRMMetrics />
         <InventoryMetrics />
       </div>

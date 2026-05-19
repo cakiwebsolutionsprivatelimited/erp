@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { PageContainer, SectionHeader } from "@/components/common/PageLayout"
 import { 
   MOCK_EMPLOYEES, 
@@ -25,12 +25,37 @@ import {
   TrendingUp
 } from "lucide-react"
 
+import { useAppSelector, useAppDispatch } from "@/store"
+import { resetSearchQuery } from "@/store/features/searchSlice"
+
 export default function HRMSPage() {
+  const dispatch = useAppDispatch()
   // Page state
   const [employees, setEmployees] = useState<Employee[]>(MOCK_EMPLOYEES)
   const [selectedEmpIds, setSelectedEmpIds] = useState<string[]>([])
   const [activeProfileEmpId, setActiveProfileEmpId] = useState<string>("EMP001")
   const [isLoading, setIsLoading] = useState(false)
+
+  const searchQuery = useAppSelector((state) => state.search.query)
+
+  // Reset the search input value when navigating away
+  useEffect(() => {
+    return () => {
+      dispatch(resetSearchQuery())
+    }
+  }, [dispatch])
+
+  const filteredEmployees = employees.filter(emp => {
+    const query = searchQuery.toLowerCase().trim();
+    if (!query) return true;
+    return (
+      emp.name.toLowerCase().includes(query) ||
+      emp.role.toLowerCase().includes(query) ||
+      emp.department.toLowerCase().includes(query) ||
+      emp.email.toLowerCase().includes(query) ||
+      emp.skills.some(s => s.toLowerCase().includes(query))
+    );
+  });
 
   // Find active employee for the profile card inspection
   const activeEmployee = employees.find(e => e.id === activeProfileEmpId) || employees[0]
@@ -151,7 +176,7 @@ export default function HRMSPage() {
             <Separator className="bg-muted" />
 
             <div className="space-y-2.5">
-              {employees.map(emp => (
+              {filteredEmployees.map(emp => (
                 <EmployeeCompactCard
                   key={emp.id}
                   employee={emp}
@@ -227,16 +252,16 @@ export default function HRMSPage() {
 
               {/* Rows List */}
               <div className="space-y-3">
-                {employees.length === 0 ? (
+                {filteredEmployees.length === 0 ? (
                   <div className="text-center py-16 border border-dashed rounded-3xl bg-muted/10">
                     <Users className="h-12 w-12 text-muted-foreground/30 mx-auto mb-3" />
                     <h4 className="text-sm font-bold">Personnel Roster is Empty</h4>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Click 'Add New Personnel' to begin enrolling staff.
+                      {searchQuery ? "No employees match your search query." : "Click 'Add New Personnel' to begin enrolling staff."}
                     </p>
                   </div>
                 ) : (
-                  employees.map(emp => (
+                  filteredEmployees.map(emp => (
                     <EmployeeManagementRow
                       key={emp.id}
                       employee={emp}
@@ -253,7 +278,7 @@ export default function HRMSPage() {
             {/* TAB CONTENT 2: DIRECTORY GRID VIEW (EmployeeProfileCard Grid) */}
             <TabsContent value="directory" className="mt-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4">
-                {employees.map(emp => (
+                {filteredEmployees.map(emp => (
                   <EmployeeProfileCard
                     key={emp.id}
                     employee={emp}

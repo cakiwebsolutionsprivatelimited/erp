@@ -1,13 +1,20 @@
 import React from 'react';
 import { Bell, Search, User, Menu } from 'lucide-react';
-import { useAppSelector } from '@/store';
+import { useAppSelector, useAppDispatch } from '@/store';
+import { setSearchQuery } from '@/store/features/searchSlice';
 
 interface NavbarProps {
   onMenuClick?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
+  const search = useAppSelector((state) => state.search.query);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearchQuery(e.target.value));
+  };
 
   return (
     <header className="sticky top-0 z-30 flex items-center h-16 px-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -25,6 +32,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
           <input 
             type="text" 
             placeholder="Search anything..." 
+            value={search}
+            onChange={handleSearchChange}
             className="w-full h-10 pl-10 pr-4 transition-all border rounded-full bg-muted/50 border-transparent focus:bg-background focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none"
           />
         </div>

@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import { type TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import authReducer from './features/authSlice';
 import modalReducer from './features/modalSlice';
+import searchReducer from './features/searchSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     modal: modalReducer,
+    search: searchReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

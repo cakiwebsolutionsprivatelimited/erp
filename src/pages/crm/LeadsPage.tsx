@@ -1,10 +1,12 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { PageContainer, SectionHeader } from "@/components/common/PageLayout"
 import { LeadsTable } from "@/components/tables/leads/LeadsTable"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import { LeadDetailsDrawer } from "@/components/crm/LeadDetailsDrawer"
 import { notify } from "@/services/notificationService"
+import { useAppSelector, useAppDispatch } from "@/store"
+import { resetSearchQuery } from "@/store/features/searchSlice"
 
 const DEFAULT_LEADS = [
   { id: "L1", company: "Tech Corp", contact: "Mark Ruffalo", value: 12000, status: "Won" as const, phone: "+1 234 567 890" },
@@ -15,9 +17,30 @@ const DEFAULT_LEADS = [
 ]
 
 const CRMLeadsPage: React.FC = () => {
+  const dispatch = useAppDispatch()
   const [leads, setLeads] = useState(DEFAULT_LEADS)
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  
+  const searchQuery = useAppSelector((state) => state.search.query)
+
+  // Reset the search input value when navigating away
+  useEffect(() => {
+    return () => {
+      dispatch(resetSearchQuery())
+    }
+  }, [dispatch])
+
+  const filteredLeads = leads.filter(lead => {
+    const query = searchQuery.toLowerCase().trim();
+    if (!query) return true;
+    return (
+      lead.company.toLowerCase().includes(query) ||
+      lead.contact.toLowerCase().includes(query) ||
+      lead.status.toLowerCase().includes(query) ||
+      lead.phone.toLowerCase().includes(query)
+    );
+  });
 
   const handleRowClick = (lead: any) => {
     setSelectedLeadId(lead.id)
@@ -53,7 +76,7 @@ const CRMLeadsPage: React.FC = () => {
       
       <div className="mt-6">
         <LeadsTable 
-          data={leads}
+          data={filteredLeads}
           onRowClick={handleRowClick}
         />
       </div>
