@@ -18,6 +18,7 @@ import CRMLeadsPage from '@/pages/crm/LeadsPage';
 import ProfileFormPage from '@/pages/settings/ProfileForm';
 import ComponentShowcasePage from '@/pages/dev/ComponentShowcasePage';
 import HRMSPage from '@/pages/hrms/HRMSPage';
+import InventoryPage from '@/pages/inventory/InventoryPage';
 
 const router = createHashRouter([
   // Public Dev Routes (No Auth)
@@ -54,7 +55,7 @@ const router = createHashRouter([
           { path: 'pricing', element: <Pricing /> },
           { path: 'crm', element: <CRMLeadsPage /> },
           { path: 'hrms', element: <HRMSPage /> },
-          { path: 'inventory', element: <div className="p-8">Inventory Module</div> },
+          { path: 'inventory', element: <InventoryPage /> },
           { path: 'billing', element: <div className="p-8">Billing Module</div> },
         ],
       },

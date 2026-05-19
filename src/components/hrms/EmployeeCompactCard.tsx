@@ -26,7 +26,6 @@ export function EmployeeCompactCard({
   isLoading = false,
   onAction
 }: EmployeeCompactCardProps) {
-  
   // Loading Skeleton State
   if (isLoading) {
     return (
@@ -100,7 +99,7 @@ export function EmployeeCompactCard({
   }
 
   return (
-    <div 
+    <div
       onClick={() => onAction?.("view_profile", employee)}
       className="flex items-center gap-3 p-3 bg-card border rounded-2xl shadow-2xs hover:shadow-xs hover:border-primary/20 transition-all group cursor-pointer"
     >
