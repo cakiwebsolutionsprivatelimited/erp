@@ -24,6 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
+import { cn } from "@/utils"
 
 import { DataTablePagination } from "./DataTablePagination"
 import { DataTableToolbar } from "./DataTableToolbar"
@@ -42,6 +43,7 @@ interface DataTableProps<TData, TValue> {
       icon?: React.ComponentType<{ className?: string }>
     }[]
   }[]
+  onRowClick?: (row: TData) => void
 }
 
 export function DataTable<TData, TValue>({
@@ -50,6 +52,7 @@ export function DataTable<TData, TValue>({
   searchKey,
   isLoading = false,
   facetedFilters = [],
+  onRowClick,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
@@ -114,7 +117,22 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="transition-colors"
+                  className={cn(
+                    "transition-colors",
+                    onRowClick && "cursor-pointer hover:bg-muted/50"
+                  )}
+                  onClick={(e) => {
+                    const target = e.target as HTMLElement
+                    if (
+                      target.closest("button") ||
+                      target.closest("a") ||
+                      target.closest("input") ||
+                      target.closest("[role='checkbox']")
+                    ) {
+                      return
+                    }
+                    onRowClick?.(row.original)
+                  }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

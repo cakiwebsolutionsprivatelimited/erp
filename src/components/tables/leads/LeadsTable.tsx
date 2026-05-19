@@ -18,13 +18,19 @@ const statusOptions = [
   { label: "Won", value: "Won" },
 ]
 
-export function LeadsTable() {
+interface LeadsTableProps {
+  onRowClick?: (row: LeadRow) => void
+  data?: LeadRow[]
+}
+
+export function LeadsTable({ onRowClick, data: customData }: LeadsTableProps) {
   return (
     <div className="w-full">
       <DataTable 
         columns={columns} 
-        data={data} 
+        data={customData || data} 
         searchKey="company" 
+        onRowClick={onRowClick}
         facetedFilters={[
           {
             columnKey: "status",
