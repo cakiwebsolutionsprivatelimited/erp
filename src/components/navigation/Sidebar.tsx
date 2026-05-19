@@ -33,6 +33,7 @@ const navItems = [
     path: '/hrms',
     children: [
       { label: 'Directory', path: '/hrms' },
+      { label: 'Employee List', path: '/hrms/employees/list' },
       { label: 'Add Employee', path: '/hrms/employees/add' }
     ]
   },
