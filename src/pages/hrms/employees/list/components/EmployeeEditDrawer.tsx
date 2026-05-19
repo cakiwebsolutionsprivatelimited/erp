@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import type { Employee } from '../types/employee.types';
 import { DEPARTMENTS, DESIGNATIONS, WORK_LOCATIONS, STATUSES, EMPLOYMENT_TYPES, WORK_MODES, SHIFTS } from '../constants/employeeFilters';
-import { X, Save, Edit3, ShieldAlert, Sparkles, Check } from 'lucide-react';
+import { X, Save, Edit3, ShieldAlert, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { notify } from '@/services/notificationService';
 
 interface EmployeeEditDrawerProps {
   employee: Employee | null;
@@ -26,6 +25,7 @@ export const EmployeeEditDrawer: React.FC<EmployeeEditDrawerProps> = ({
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [pendingData, setPendingData] = useState<Partial<Employee> | null>(null);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const methods = useForm<any>({
     mode: 'onChange'
   });
@@ -62,6 +62,7 @@ export const EmployeeEditDrawer: React.FC<EmployeeEditDrawerProps> = ({
 
   if (!employee || !isOpen) return null;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onFormSubmit = (data: any) => {
     // 1. Convert numeric parameters
     const cleanedData: Partial<Employee> = {

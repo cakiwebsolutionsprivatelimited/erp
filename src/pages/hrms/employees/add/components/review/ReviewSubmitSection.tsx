@@ -3,16 +3,15 @@ import { useFormContext } from 'react-hook-form';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { useAppSelector, useAppDispatch } from '@/store';
-import { setActiveTab, updateChecklist } from '@/store/features/employeeOnboardingSlice';
-import { useEmployeeValidation } from '../../hooks/useEmployeeValidation';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { useAppSelector, useAppDispatch } from '@/store';
+import { updateChecklist, setActiveTab } from '@/store/features/employeeOnboardingSlice';
+import { useEmployeeValidation } from '../../hooks/useEmployeeValidation';
 import { type EmployeeFormData } from '../../types/employee.types';
 import { 
-  CheckCircle2, AlertTriangle, Edit3, ArrowRight, ShieldCheck, Mail, 
-  QrCode, FileText, Smartphone, Network, UserCheck, Sparkles, Send, Download
+  CheckCircle2, AlertTriangle, ArrowRight, ShieldCheck, Mail, 
+  QrCode, FileText, UserCheck, Send, Download, Edit3
 } from 'lucide-react';
 import { notify } from '@/services/notificationService';
 
@@ -24,15 +23,14 @@ interface ReviewSubmitSectionProps {
 
 export const ReviewSubmitSection: React.FC<ReviewSubmitSectionProps> = ({
   onSubmit,
-  isSubmitting,
-  completionPercentage
+  isSubmitting
 }) => {
+  const { getValues, trigger } = useFormContext<EmployeeFormData>();
   const dispatch = useAppDispatch();
-  const { getValues, formState: { errors }, trigger } = useFormContext<EmployeeFormData>();
-  const { tabCompletions, checklist, activityTimeline } = useAppSelector((state) => state.employeeOnboarding);
+  const { tabCompletions, activityTimeline, checklist } = useAppSelector((state) => state.employeeOnboarding);
   
   // Custom hook validation
-  const { getMissingFieldsChecklist } = useEmployeeValidation(trigger, errors);
+  const { getMissingFieldsChecklist } = useEmployeeValidation(trigger);
   
   const values = getValues();
   const missingChecklist = getMissingFieldsChecklist(values, tabCompletions);
@@ -41,7 +39,6 @@ export const ReviewSubmitSection: React.FC<ReviewSubmitSectionProps> = ({
   // States for secondary features
   const [welcomePreviewOpen, setWelcomePreviewOpen] = useState(false);
   const [duplicateScanActive, setDuplicateScanActive] = useState(false);
-  const [scanResult, setScanResult] = useState<{ scanned: boolean; hasConflict: boolean }>({ scanned: false, hasConflict: false });
 
   const handleJumpToTab = (tabName: string) => {
     dispatch(setActiveTab(tabName));
@@ -52,7 +49,6 @@ export const ReviewSubmitSection: React.FC<ReviewSubmitSectionProps> = ({
     setDuplicateScanActive(true);
     setTimeout(() => {
       setDuplicateScanActive(false);
-      setScanResult({ scanned: true, hasConflict: false });
       notify.success('Security Audit Done', 'Checked email, mobile and Aadhaar databases. No conflicts found!');
     }, 1000);
   };

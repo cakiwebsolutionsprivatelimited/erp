@@ -11,8 +11,10 @@ export const DeleteModal: React.FC = () => {
 
   if (type !== 'DELETE') return null;
 
+  const deleteData = data as { onDelete?: () => void; itemType?: string } | null;
+
   const onConfirm = () => {
-    if (data?.onDelete) data.onDelete();
+    if (deleteData?.onDelete) deleteData.onDelete();
     dispatch(closeModal());
   };
 
@@ -42,7 +44,7 @@ export const DeleteModal: React.FC = () => {
         <div className="text-sm">
           <p className="font-bold">Warning</p>
           <p className="opacity-90">
-            Deleting this {data?.itemType || 'item'} will permanently remove all associated data from our servers.
+            Deleting this {deleteData?.itemType || 'item'} will permanently remove all associated data from our servers.
           </p>
         </div>
       </div>

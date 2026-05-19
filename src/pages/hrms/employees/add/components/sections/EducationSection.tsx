@@ -9,6 +9,7 @@ import { GraduationCap, Plus, Trash2, BookOpen } from 'lucide-react';
 
 export const EducationSection: React.FC = () => {
   const { register, control, setValue, watch, formState: { errors } } = useFormContext();
+  const eduErrors = errors.education as Array<Record<string, { message?: string }>> | undefined;
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -83,8 +84,8 @@ export const EducationSection: React.FC = () => {
                         className="rounded-xl h-10 bg-background"
                         {...register(`education.${index}.degree`)}
                       />
-                      {(errors.education as any)?.[index]?.degree && (
-                        <span className="text-[10px] text-destructive font-bold">{(errors.education as any)[index].degree.message as string}</span>
+                      {eduErrors?.[index]?.degree && (
+                        <span className="text-[10px] text-destructive font-bold">{eduErrors[index].degree.message}</span>
                       )}
                     </div>
 
@@ -95,8 +96,8 @@ export const EducationSection: React.FC = () => {
                         className="rounded-xl h-10 bg-background"
                         {...register(`education.${index}.institution`)}
                       />
-                      {(errors.education as any)?.[index]?.institution && (
-                        <span className="text-[10px] text-destructive font-bold">{(errors.education as any)[index].institution.message as string}</span>
+                      {eduErrors?.[index]?.institution && (
+                        <span className="text-[10px] text-destructive font-bold">{eduErrors[index].institution.message}</span>
                       )}
                     </div>
                   </div>
@@ -109,8 +110,8 @@ export const EducationSection: React.FC = () => {
                         className="rounded-xl h-10 bg-background"
                         {...register(`education.${index}.passingYear`)}
                       />
-                      {(errors.education as any)?.[index]?.passingYear && (
-                        <span className="text-[10px] text-destructive font-bold">{(errors.education as any)[index].passingYear.message as string}</span>
+                      {eduErrors?.[index]?.passingYear && (
+                        <span className="text-[10px] text-destructive font-bold">{eduErrors[index].passingYear.message}</span>
                       )}
                     </div>
 
@@ -121,8 +122,8 @@ export const EducationSection: React.FC = () => {
                         className="rounded-xl h-10 bg-background"
                         {...register(`education.${index}.grade`)}
                       />
-                      {(errors.education as any)?.[index]?.grade && (
-                        <span className="text-[10px] text-destructive font-bold">{(errors.education as any)[index].grade.message as string}</span>
+                      {eduErrors?.[index]?.grade && (
+                        <span className="text-[10px] text-destructive font-bold">{eduErrors[index].grade.message}</span>
                       )}
                     </div>
                   </div>

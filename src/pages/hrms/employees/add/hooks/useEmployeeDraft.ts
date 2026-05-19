@@ -26,15 +26,15 @@ export const useEmployeeDraft = (reset: UseFormReset<EmployeeFormData>) => {
     const savedDraft = localStorage.getItem(DRAFT_STORAGE_KEY);
     if (savedDraft) {
       try {
-        const parsed = JSON.parse(savedDraft);
+        JSON.parse(savedDraft);
         // We will expose a restore capability or just auto-load but prompt
         // Let's do a toast notification with an action to restore
         notify.info(
           'Unsaved Draft Found',
           'We found an unsaved draft from your last session. Click Restore Draft in the top header.'
         );
-      } catch (err) {
-        console.error('Failed to parse draft', err);
+      } catch {
+        console.error('Failed to parse draft');
       }
     }
   }, [clonedData, reset, dispatch]);
@@ -51,7 +51,7 @@ export const useEmployeeDraft = (reset: UseFormReset<EmployeeFormData>) => {
         dispatch(setLastSaved(new Date().toLocaleTimeString()));
         dispatch(addTimelineEvent({ message: 'Unsaved draft restored successfully.', type: 'info' }));
         notify.success('Draft Restored', 'Restored draft from last session.');
-      } catch (e) {
+      } catch {
         notify.error('Restore Failed', 'Failed to restore unsaved draft.');
       }
     } else {
@@ -69,7 +69,7 @@ export const useEmployeeDraft = (reset: UseFormReset<EmployeeFormData>) => {
       dispatch(setLastSaved(timeString));
       dispatch(addTimelineEvent({ message: 'Draft saved manually by user.', type: 'success' }));
       notify.success('Draft Saved', `Employee onboarding draft saved successfully at ${timeString}`);
-    } catch (err) {
+    } catch {
       notify.error('Draft Save Failed', 'Unable to persist draft data.');
     }
   };

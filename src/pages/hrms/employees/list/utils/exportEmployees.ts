@@ -52,7 +52,7 @@ export const exportEmployeesToExcel = (
 
     targetData.forEach(emp => {
       const row = keys.map(key => {
-        const val = (emp as any)[key];
+        const val = emp[key as keyof Employee];
         if (val === undefined || val === null) return '""';
         return `"${String(val).replace(/"/g, '""')}"`;
       });

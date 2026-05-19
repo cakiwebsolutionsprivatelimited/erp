@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { 
   Plus, Search, SlidersHorizontal, Download, RefreshCw, 
-  Users, UserCheck, CalendarDays, GraduationCap, BarChart3, HelpCircle 
+  Users, UserCheck, CalendarDays, GraduationCap, BarChart3 
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 

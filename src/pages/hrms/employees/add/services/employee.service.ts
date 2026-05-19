@@ -45,7 +45,7 @@ export const employeeService = {
     file: File,
     onProgress: UploadProgressCallback
   ): Promise<{ fileUrl: string; fileName: string }> => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       let progress = 0;
       const interval = setInterval(() => {
         progress += Math.floor(Math.random() * 20) + 10;
@@ -68,7 +68,7 @@ export const employeeService = {
   /**
    * Submits the completed onboarding record to the backend database.
    */
-  submitEmployee: async (data: EmployeeFormData): Promise<{ success: boolean; data: any }> => {
+  submitEmployee: async (data: EmployeeFormData): Promise<{ success: boolean; data: EmployeeFormData }> => {
     await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate API payload write latency
     
     // Save to local storage mock for persistence if wanted

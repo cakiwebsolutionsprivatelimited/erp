@@ -35,7 +35,7 @@ export interface CertificationEntry {
 
 export interface AttachmentEntry {
   title: string;
-  fileUrl?: string;
+  fileUrl: string;
   fileName?: string;
 }
 
@@ -104,9 +104,9 @@ export interface EmployeeFormData {
   panNumber: string;
   aadhaarNumber: string;
   passportNumber?: string;
-  panFileUrl?: string;
+  panFileUrl: string;
   panFileName?: string;
-  aadhaarFileUrl?: string;
+  aadhaarFileUrl: string;
   aadhaarFileName?: string;
   passportFileUrl?: string;
   passportFileName?: string;

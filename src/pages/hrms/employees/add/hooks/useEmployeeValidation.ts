@@ -1,12 +1,11 @@
 import { useAppDispatch } from '@/store';
 import { markTabComplete, addTimelineEvent } from '@/store/features/employeeOnboardingSlice';
 import { TAB_VALIDATION_FIELDS } from '../schemas/employee.schema';
-import { type FieldErrors, type UseFormTrigger } from 'react-hook-form';
+import { type UseFormTrigger } from 'react-hook-form';
 import { type EmployeeFormData } from '../types/employee.types';
 
 export const useEmployeeValidation = (
-  trigger: UseFormTrigger<EmployeeFormData>,
-  errors: FieldErrors<EmployeeFormData>
+  trigger: UseFormTrigger<EmployeeFormData>
 ) => {
   const dispatch = useAppDispatch();
 
@@ -24,6 +23,7 @@ export const useEmployeeValidation = (
     }
 
     // Trigger validation for all fields in this specific tab
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const isValid = await trigger(fieldsToValidate as any);
     
     dispatch(markTabComplete({ tabName, complete: isValid }));
@@ -107,7 +107,7 @@ export const useEmployeeValidation = (
           if (!values.aadhaarFileUrl) missingInTab.push('Aadhaar Card Attachment');
         } else {
           // General fields
-          const val = (values as any)[fieldName];
+          const val = values[fieldName as keyof EmployeeFormData];
           if (val === undefined || val === null || val === '') {
             // Human friendly name
             const friendlyName = fieldName

@@ -2,11 +2,10 @@ import { useEffect, useRef } from 'react';
 import { useAppDispatch } from '@/store';
 import { setLastSaved, setIsAutoSaving, addTimelineEvent } from '@/store/features/employeeOnboardingSlice';
 import { DRAFT_STORAGE_KEY } from './useEmployeeDraft';
-import { type EmployeeFormData } from '../types/employee.types';
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const useEmployeeAutoSave = (watch: any, isDirty: boolean) => {
   const dispatch = useAppDispatch();
-  const timerRef = useRef<any>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   
   // Watch all fields
   const formValues = watch();

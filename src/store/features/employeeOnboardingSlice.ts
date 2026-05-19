@@ -19,7 +19,7 @@ interface OnboardingState {
   tabCompletions: Record<string, boolean>;
   activityTimeline: TimelineEvent[];
   checklist: ChecklistItem[];
-  clonedData: any | null;
+  clonedData: Record<string, unknown> | null;
   lastSaved: string | null;
   hasUnsavedChanges: boolean;
   isAutoSaving: boolean;
@@ -89,7 +89,7 @@ const employeeOnboardingSlice = createSlice({
     setIsAutoSaving: (state, action: PayloadAction<boolean>) => {
       state.isAutoSaving = action.payload;
     },
-    setClonedData: (state, action: PayloadAction<any | null>) => {
+    setClonedData: (state, action: PayloadAction<Record<string, unknown> | null>) => {
       state.clonedData = action.payload;
       state.activityTimeline.unshift({
         id: Math.random().toString(36).substr(2, 9),

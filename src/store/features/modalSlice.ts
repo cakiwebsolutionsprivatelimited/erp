@@ -5,7 +5,7 @@ export type ModalType = 'CONFIRM' | 'DELETE' | 'FORM' | 'CUSTOM';
 interface ModalState {
   type: ModalType | null;
   isOpen: boolean;
-  data: any;
+  data: unknown;
   config: {
     title?: string;
     description?: string;
@@ -29,7 +29,7 @@ const modalSlice = createSlice({
   reducers: {
     openModal: (
       state,
-      action: PayloadAction<{ type: ModalType; data?: any; config?: ModalState['config'] }>
+      action: PayloadAction<{ type: ModalType; data?: unknown; config?: ModalState['config'] }>
     ) => {
       state.type = action.payload.type;
       state.isOpen = true;

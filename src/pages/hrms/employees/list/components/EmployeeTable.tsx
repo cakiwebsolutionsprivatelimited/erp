@@ -57,6 +57,7 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
     return selection;
   }, [selectedIds, data]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleRowSelectionChange = (updaterOrValue: any) => {
     const newSelection = typeof updaterOrValue === 'function' 
       ? updaterOrValue(rowSelection) 

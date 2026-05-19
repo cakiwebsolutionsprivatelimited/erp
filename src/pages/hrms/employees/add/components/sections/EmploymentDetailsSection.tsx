@@ -5,11 +5,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DEPARTMENTS, DESIGNATIONS_BY_DEPT, REPORTING_MANAGERS } from '../../constants/dropdowns';
 import { generateSuggestedEmails } from '../../utils/calculations';
-import { Briefcase, ArrowRight, Sparkles, Mail } from 'lucide-react';
+import { Briefcase, Mail } from 'lucide-react';
 
 export const EmploymentDetailsSection: React.FC = () => {
   const { register, setValue, watch, formState: { errors } } = useFormContext();

@@ -84,7 +84,9 @@ export const WorkExperienceSection: React.FC = () => {
                         className="rounded-xl h-10 bg-background"
                         {...register(`experience.${index}.company`)}
                       />
+                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                       {(errors.experience as any)?.[index]?.company && (
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         <span className="text-[10px] text-destructive font-bold">{(errors.experience as any)[index].company.message as string}</span>
                       )}
                     </div>
@@ -96,7 +98,9 @@ export const WorkExperienceSection: React.FC = () => {
                         className="rounded-xl h-10 bg-background"
                         {...register(`experience.${index}.designation`)}
                       />
+                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                       {(errors.experience as any)?.[index]?.designation && (
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         <span className="text-[10px] text-destructive font-bold">{(errors.experience as any)[index].designation.message as string}</span>
                       )}
                     </div>
@@ -110,7 +114,9 @@ export const WorkExperienceSection: React.FC = () => {
                         className="rounded-xl h-10 bg-background"
                         {...register(`experience.${index}.startDate`)}
                       />
+                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                       {(errors.experience as any)?.[index]?.startDate && (
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         <span className="text-[10px] text-destructive font-bold">{(errors.experience as any)[index].startDate.message as string}</span>
                       )}
                     </div>
@@ -122,7 +128,9 @@ export const WorkExperienceSection: React.FC = () => {
                         className="rounded-xl h-10 bg-background"
                         {...register(`experience.${index}.endDate`)}
                       />
+                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                       {(errors.experience as any)?.[index]?.endDate && (
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         <span className="text-[10px] text-destructive font-bold">{(errors.experience as any)[index].endDate.message as string}</span>
                       )}
                     </div>
@@ -136,7 +144,9 @@ export const WorkExperienceSection: React.FC = () => {
                       className="rounded-xl bg-background"
                       {...register(`experience.${index}.responsibilities`)}
                     />
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                     {(errors.experience as any)?.[index]?.responsibilities && (
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       <span className="text-[10px] text-destructive font-bold">{(errors.experience as any)[index].responsibilities.message as string}</span>
                     )}
                   </div>

@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { UploadCloud, FileText, CheckCircle2, X, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
 import { employeeService } from '../../services/employee.service';
 import { cn } from '@/utils';
 import { notify } from '@/services/notificationService';
@@ -54,7 +53,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       onChange(res.fileUrl, res.fileName);
       setUploadProgress(null);
       notify.success('Upload Successful', `Successfully uploaded ${file.name}`);
-    } catch (err) {
+    } catch {
       setUploadProgress(null);
       notify.error('Upload Failed', 'Failed to upload document. Please retry.');
     }

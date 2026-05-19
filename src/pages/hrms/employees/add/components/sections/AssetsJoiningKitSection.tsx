@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Checkbox } from '@/components/ui/checkbox';
 import { KIT_ITEMS_LIST } from '../../constants/dropdowns';
-import { Package, Laptop, Check } from 'lucide-react';
+import { Package } from 'lucide-react';
 
 export const AssetsJoiningKitSection: React.FC = () => {
   const { register, setValue, watch, formState: { errors } } = useFormContext();

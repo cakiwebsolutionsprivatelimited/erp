@@ -2,8 +2,8 @@ import React from 'react';
 import type { Employee } from '../types/employee.types';
 import { maskSensitiveData } from '../utils/employeeHelpers';
 import { 
-  X, Briefcase, Calendar, Phone, Mail, MapPin, DollarSign, 
-  ShieldCheck, ShieldAlert, Sparkles, QrCode, CreditCard, Clock, Activity, FileText, CheckCircle2
+  X, Briefcase, Calendar, Phone, Mail, 
+  ShieldCheck, QrCode, CreditCard, Clock, CheckCircle2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';

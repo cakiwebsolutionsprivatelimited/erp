@@ -15,7 +15,6 @@ export const BankPayrollSection: React.FC = () => {
   const fullName = watch('fullName');
   const accountHolderName = watch('accountHolderName');
   const accountNumber = watch('accountNumber') || '';
-  const bankName = watch('bankName');
 
   // Pre-fill Account Holder Name with Full Name if it's empty
   useEffect(() => {

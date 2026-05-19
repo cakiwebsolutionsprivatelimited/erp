@@ -20,7 +20,6 @@ import {
   AlertTriangle, 
   TrendingUp, 
   DollarSign, 
-  QrCode, 
   FileSpreadsheet, 
   Warehouse, 
   ListTodo, 

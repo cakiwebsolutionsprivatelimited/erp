@@ -6,10 +6,11 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { FileUpload } from '../shared/FileUpload';
-import { ShieldAlert, Plus, Trash2, FileText, CheckCircle2 } from 'lucide-react';
+import { ShieldAlert, Plus, Trash2, FileText } from 'lucide-react';
 
 export const NotesAttachmentsSection: React.FC = () => {
   const { register, control, setValue, watch, formState: { errors } } = useFormContext();
+  const attachmentErrors = errors.attachments as Array<Record<string, { message?: string }>> | undefined;
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -83,7 +84,7 @@ export const NotesAttachmentsSection: React.FC = () => {
                         className="rounded-xl h-10 bg-background font-semibold"
                         {...register(`attachments.${index}.title`)}
                       />
-                      {(errors.attachments as any)?.[index] && (
+                      {attachmentErrors?.[index] && (
                         <span className="text-[10px] text-destructive font-bold">Label is required</span>
                       )}
                     </div>

@@ -6,10 +6,21 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { STATES_AND_DISTRICTS } from '../../constants/dropdowns';
-import { MapPin, Phone, HelpCircle } from 'lucide-react';
+import { MapPin, Phone } from 'lucide-react';
+
+interface AddressError {
+  street?: { message?: string };
+  state?: { message?: string };
+  district?: { message?: string };
+  city?: { message?: string };
+  pin?: { message?: string };
+}
 
 export const ContactAddressSection: React.FC = () => {
   const { register, setValue, watch, formState: { errors } } = useFormContext();
+
+  const presentAddressErrors = errors.presentAddress as AddressError | undefined;
+  const permanentAddressErrors = errors.permanentAddress as AddressError | undefined;
 
   const sameAsPresent = watch('sameAsPresent') || false;
   
@@ -110,8 +121,8 @@ export const ContactAddressSection: React.FC = () => {
                 className="rounded-xl h-10"
                 {...register('presentAddress.street')}
               />
-              {(errors.presentAddress as any)?.street && (
-                <span className="text-[10px] text-destructive font-bold">{(errors.presentAddress as any).street.message as string}</span>
+              {presentAddressErrors?.street && (
+                <span className="text-[10px] text-destructive font-bold">{presentAddressErrors.street.message}</span>
               )}
             </div>
 
@@ -131,8 +142,8 @@ export const ContactAddressSection: React.FC = () => {
                     ))}
                   </SelectContent>
                 </Select>
-                {(errors.presentAddress as any)?.state && (
-                  <span className="text-[10px] text-destructive font-bold">{(errors.presentAddress as any).state.message as string}</span>
+                {presentAddressErrors?.state && (
+                  <span className="text-[10px] text-destructive font-bold">{presentAddressErrors.state.message}</span>
                 )}
               </div>
 
@@ -152,8 +163,8 @@ export const ContactAddressSection: React.FC = () => {
                     ))}
                   </SelectContent>
                 </Select>
-                {(errors.presentAddress as any)?.district && (
-                  <span className="text-[10px] text-destructive font-bold">{(errors.presentAddress as any).district.message as string}</span>
+                {presentAddressErrors?.district && (
+                  <span className="text-[10px] text-destructive font-bold">{presentAddressErrors.district.message}</span>
                 )}
               </div>
 
@@ -173,8 +184,8 @@ export const ContactAddressSection: React.FC = () => {
                     ))}
                   </SelectContent>
                 </Select>
-                {(errors.presentAddress as any)?.city && (
-                  <span className="text-[10px] text-destructive font-bold">{(errors.presentAddress as any).city.message as string}</span>
+                {presentAddressErrors?.city && (
+                  <span className="text-[10px] text-destructive font-bold">{presentAddressErrors.city.message}</span>
                 )}
               </div>
 
@@ -185,8 +196,8 @@ export const ContactAddressSection: React.FC = () => {
                   className="rounded-xl h-10"
                   {...register('presentAddress.pin')}
                 />
-                {(errors.presentAddress as any)?.pin && (
-                  <span className="text-[10px] text-destructive font-bold">{(errors.presentAddress as any).pin.message as string}</span>
+                {presentAddressErrors?.pin && (
+                  <span className="text-[10px] text-destructive font-bold">{presentAddressErrors.pin.message}</span>
                 )}
               </div>
             </div>
@@ -223,8 +234,8 @@ export const ContactAddressSection: React.FC = () => {
                   className="rounded-xl h-10"
                   {...register('permanentAddress.street')}
                 />
-                {(errors.permanentAddress as any)?.street && (
-                  <span className="text-[10px] text-destructive font-bold">{(errors.permanentAddress as any).street.message as string}</span>
+                {permanentAddressErrors?.street && (
+                  <span className="text-[10px] text-destructive font-bold">{permanentAddressErrors.street.message}</span>
                 )}
               </div>
 
@@ -244,8 +255,8 @@ export const ContactAddressSection: React.FC = () => {
                       ))}
                     </SelectContent>
                   </Select>
-                  {(errors.permanentAddress as any)?.state && (
-                    <span className="text-[10px] text-destructive font-bold">{(errors.permanentAddress as any).state.message as string}</span>
+                  {permanentAddressErrors?.state && (
+                    <span className="text-[10px] text-destructive font-bold">{permanentAddressErrors.state.message}</span>
                   )}
                 </div>
 
@@ -265,8 +276,8 @@ export const ContactAddressSection: React.FC = () => {
                       ))}
                     </SelectContent>
                   </Select>
-                  {(errors.permanentAddress as any)?.district && (
-                    <span className="text-[10px] text-destructive font-bold">{(errors.permanentAddress as any).district.message as string}</span>
+                  {permanentAddressErrors?.district && (
+                    <span className="text-[10px] text-destructive font-bold">{permanentAddressErrors.district.message}</span>
                   )}
                 </div>
 
@@ -286,8 +297,8 @@ export const ContactAddressSection: React.FC = () => {
                       ))}
                     </SelectContent>
                   </Select>
-                  {(errors.permanentAddress as any)?.city && (
-                    <span className="text-[10px] text-destructive font-bold">{(errors.permanentAddress as any).city.message as string}</span>
+                  {permanentAddressErrors?.city && (
+                    <span className="text-[10px] text-destructive font-bold">{permanentAddressErrors.city.message}</span>
                   )}
                 </div>
 
@@ -298,8 +309,8 @@ export const ContactAddressSection: React.FC = () => {
                     className="rounded-xl h-10"
                     {...register('permanentAddress.pin')}
                   />
-                  {(errors.permanentAddress as any)?.pin && (
-                    <span className="text-[10px] text-destructive font-bold">{(errors.permanentAddress as any).pin.message as string}</span>
+                  {permanentAddressErrors?.pin && (
+                    <span className="text-[10px] text-destructive font-bold">{permanentAddressErrors.pin.message}</span>
                   )}
                 </div>
               </div>

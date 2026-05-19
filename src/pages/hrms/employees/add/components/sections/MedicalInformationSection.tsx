@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { BLOOD_GROUPS } from '../../constants/dropdowns';
-import { HeartPulse, ShieldAlert, Award } from 'lucide-react';
+import { HeartPulse, ShieldAlert } from 'lucide-react';
 
 export const MedicalInformationSection: React.FC = () => {
   const { register, setValue, watch, formState: { errors } } = useFormContext();

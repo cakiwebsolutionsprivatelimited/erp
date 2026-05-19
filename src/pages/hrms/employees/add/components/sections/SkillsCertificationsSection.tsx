@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { FileUpload } from '../shared/FileUpload';
 import { SKILLS_LIST } from '../../constants/dropdowns';
 import { Award, Plus, Trash2, Check, Star } from 'lucide-react';
@@ -167,7 +166,9 @@ export const SkillsCertificationsSection: React.FC = () => {
                           className="rounded-xl h-10 bg-background"
                           {...register(`certifications.${index}.name`)}
                         />
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                         {(errors.certifications as any)?.[index]?.name && (
+                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
                           <span className="text-[10px] text-destructive font-bold">{(errors.certifications as any)[index].name.message as string}</span>
                         )}
                       </div>
@@ -179,7 +180,9 @@ export const SkillsCertificationsSection: React.FC = () => {
                           className="rounded-xl h-10 bg-background"
                           {...register(`certifications.${index}.issuer`)}
                         />
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                         {(errors.certifications as any)?.[index]?.issuer && (
+                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
                           <span className="text-[10px] text-destructive font-bold">{(errors.certifications as any)[index].issuer.message as string}</span>
                         )}
                       </div>
@@ -193,7 +196,9 @@ export const SkillsCertificationsSection: React.FC = () => {
                           className="rounded-xl h-10 bg-background"
                           {...register(`certifications.${index}.issueDate`)}
                         />
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                         {(errors.certifications as any)?.[index]?.issueDate && (
+                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
                           <span className="text-[10px] text-destructive font-bold">{(errors.certifications as any)[index].issueDate.message as string}</span>
                         )}
                       </div>

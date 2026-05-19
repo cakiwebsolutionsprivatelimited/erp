@@ -10,8 +10,10 @@ export const ConfirmationModal: React.FC = () => {
 
   if (type !== 'CONFIRM') return null;
 
+  const confirmData = data as { onConfirm?: () => void; content?: React.ReactNode } | null;
+
   const onConfirm = () => {
-    if (data?.onConfirm) data.onConfirm();
+    if (confirmData?.onConfirm) confirmData.onConfirm();
     dispatch(closeModal());
   };
 
@@ -38,7 +40,7 @@ export const ConfirmationModal: React.FC = () => {
     >
       <div className="py-2">
         {/* Additional custom content from data if needed */}
-        {data?.content}
+        {confirmData?.content}
       </div>
     </BaseModal>
   );

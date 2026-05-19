@@ -3,9 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Save, CheckCircle, ArrowLeft, RefreshCw, Sparkles, FileClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { useAppSelector } from '@/store';
-import { cn } from '@/utils';
 
 interface AddEmployeeHeaderProps {
   onSaveDraft: () => void;
@@ -27,7 +25,7 @@ export const AddEmployeeHeader: React.FC<AddEmployeeHeaderProps> = ({
   employeeId
 }) => {
   const navigate = useNavigate();
-  const { lastSaved, isAutoSaving, hasUnsavedChanges } = useAppSelector((state) => state.employeeOnboarding);
+  const { lastSaved, isAutoSaving } = useAppSelector((state) => state.employeeOnboarding);
 
   return (
     <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b pb-4 pt-2 px-1 flex flex-col gap-4">

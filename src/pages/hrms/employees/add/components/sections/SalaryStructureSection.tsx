@@ -12,10 +12,6 @@ export const SalaryStructureSection: React.FC = () => {
   const { register, setValue, watch, formState: { errors } } = useFormContext();
 
   const grossSalary = parseFloat(watch('grossSalary') || '0');
-  const basicSalary = parseFloat(watch('basicSalary') || '0');
-  const hra = parseFloat(watch('hra') || '0');
-  const lta = parseFloat(watch('lta') || '0');
-  const specialAllowance = parseFloat(watch('specialAllowance') || '0');
   const employeePf = parseFloat(watch('employeePf') || '0');
   const professionalTax = parseFloat(watch('professionalTax') || '0');
   const otherDeductions = parseFloat(watch('otherDeductions') || '0');

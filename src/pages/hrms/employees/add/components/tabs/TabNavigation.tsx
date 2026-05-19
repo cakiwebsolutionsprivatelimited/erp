@@ -30,6 +30,7 @@ export const TABS_LIST = [
 
 interface TabNavigationProps {
   onTabChange: (tabName: string) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   errors: any;
 }
 

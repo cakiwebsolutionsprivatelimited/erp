@@ -12,7 +12,7 @@ import { EmployeeQuickView } from './components/EmployeeQuickView';
 import { EmployeeEditDrawer } from './components/EmployeeEditDrawer';
 import type { Employee } from './types/employee.types';
 import { 
-  Users, FolderHeart, ShieldCheck, Mail, Send, Trash2, X, ChevronDown, CheckCircle2 
+  FolderHeart, Trash2, X, ChevronDown 
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -36,8 +36,6 @@ export const EmployeeListPage: React.FC = () => {
     bulkDelete,
     bulkUpdateDepartment,
     bulkUpdateStatus,
-    toggleSelect,
-    toggleSelectAll,
     setSelectedIds
   } = useEmployees();
 

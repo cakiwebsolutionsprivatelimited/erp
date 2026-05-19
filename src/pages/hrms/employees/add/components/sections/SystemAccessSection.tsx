@@ -6,10 +6,10 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { generateSuggestedUsername, generateSuggestedUsername as generateUsername } from '../../utils/calculations';
+import { generateSuggestedUsername } from '../../utils/calculations';
 import { checkPasswordStrength, generateSecurePassword } from '../../utils/employeeHelpers';
 import { notify } from '@/services/notificationService';
-import { Key, ShieldAlert, Sparkles, Copy, Check, Eye, EyeOff, ShieldCheck } from 'lucide-react';
+import { Key, Sparkles, Copy, Check, Eye, EyeOff, ShieldCheck } from 'lucide-react';
 
 const ROLE_PERMISSIONS: Record<string, string[]> = {
   'Employee': [

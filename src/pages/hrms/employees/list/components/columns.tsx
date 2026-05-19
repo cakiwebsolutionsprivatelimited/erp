@@ -3,7 +3,7 @@ import type { Employee } from '../types/employee.types';
 import { EmployeeStatusBadge } from './EmployeeStatusBadge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
-import { ArrowUpDown, HelpCircle } from 'lucide-react';
+import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export const getColumns = (
@@ -161,7 +161,7 @@ export const getColumns = (
     header: 'Completeness',
     cell: ({ row }) => {
       const value = row.getValue('profileCompleteness') as number;
-      let colorClass = 'bg-primary';
+      let colorClass: string;
       if (value < 60) colorClass = 'bg-rose-500';
       else if (value < 85) colorClass = 'bg-amber-500';
       else colorClass = 'bg-emerald-500';

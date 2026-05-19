@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppSelector, useAppDispatch } from '@/store';
 import { setActiveTab, resetOnboardingState, addTimelineEvent } from '@/store/features/employeeOnboardingSlice';
 
-import { employeeOnboardingSchema } from './schemas/employee.schema';
+import { employeeOnboardingSchema, type EmployeeOnboardingData } from './schemas/employee.schema';
 import { type EmployeeFormData } from './types/employee.types';
 import { useEmployeeDraft } from './hooks/useEmployeeDraft';
 import { useEmployeeAutoSave } from './hooks/useEmployeeAutoSave';
@@ -123,13 +123,13 @@ export default function AddEmployeePage() {
   const [submitConfirmOpen, setSubmitConfirmOpen] = useState(false);
 
   // Initialize Form
-  const methods = useForm<any>({
-    resolver: zodResolver(employeeOnboardingSchema),
+  const methods = useForm<EmployeeFormData>({
+    resolver: zodResolver(employeeOnboardingSchema) as any,
     defaultValues: INITIAL_FORM_VALUES,
     mode: 'onChange'
   });
 
-  const { handleSubmit, reset, watch, trigger, getValues, formState: { errors, isDirty } } = methods;
+  const { reset, watch, trigger, getValues, setValue, formState: { errors, isDirty } } = methods;
 
   // 1. Load Auto-generated ID on mount
   useEffect(() => {
@@ -144,14 +144,12 @@ export default function AddEmployeePage() {
       }
     };
     fetchId();
-  }, [dispatch]);
-
-  const { setValue } = methods;
+  }, [dispatch, setValue]);
 
   // Custom Hooks Setup
   const { restoreDraft, saveDraft, hasDraftInStorage } = useEmployeeDraft(reset);
   useEmployeeAutoSave(watch, isDirty);
-  const { validateTab, getCompletionPercentage } = useEmployeeValidation(trigger, errors);
+  const { validateTab, getCompletionPercentage } = useEmployeeValidation(trigger);
 
   const completionPercentage = getCompletionPercentage(tabCompletions);
 
@@ -217,7 +215,7 @@ export default function AddEmployeePage() {
           navigate('/hrms');
         }, 1500);
       }
-    } catch (err) {
+    } catch {
       setIsSubmitting(false);
       notify.error('Submission Failed', 'Failed to synchronize with central HR database.');
     }

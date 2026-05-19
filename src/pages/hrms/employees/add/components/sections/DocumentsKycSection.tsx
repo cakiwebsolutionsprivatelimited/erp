@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { FileUpload } from '../shared/FileUpload';
-import { FileText, ShieldAlert, EyeOff } from 'lucide-react';
+import { FileText, ShieldAlert } from 'lucide-react';
 
 export const DocumentsKycSection: React.FC = () => {
   const { register, setValue, watch, formState: { errors } } = useFormContext();
