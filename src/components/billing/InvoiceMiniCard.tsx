@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, Calendar, DollarSign, ArrowUpRight, AlertCircle } from 'lucide-react';
+import { FileText, Calendar, ArrowUpRight, AlertCircle } from 'lucide-react';
 import { cn } from '@/utils';
 import { Badge } from '@/components/ui/badge';
 import type { Invoice } from './types';

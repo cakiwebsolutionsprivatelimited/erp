@@ -50,7 +50,6 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   searchKey,
-  isLoading = false,
   facetedFilters = [],
   onRowClick,
 }: DataTableProps<TData, TValue>) {

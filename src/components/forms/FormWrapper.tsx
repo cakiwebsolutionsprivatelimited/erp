@@ -1,16 +1,16 @@
 import * as React from "react"
 import { useForm, type UseFormReturn, type FieldValues, type UseFormProps } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { type ZodSchema } from "zod"
+import { type ZodType } from "zod"
 import { Form } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 
 interface FormWrapperProps<T extends FieldValues> {
-  schema: ZodSchema<T>
+  schema: ZodType<T, unknown, unknown>
   defaultValues: UseFormProps<T>["defaultValues"]
   onSubmit: (values: T) => void | Promise<void>
-  children: (methods: UseFormReturn<T, any, any>) => React.ReactNode
+  children: (methods: UseFormReturn<T>) => React.ReactNode
   submitLabel?: string
   isLoading?: boolean
   className?: string
@@ -26,18 +26,18 @@ export function FormWrapper<T extends FieldValues>({
   className,
 }: FormWrapperProps<T>) {
   const methods = useForm<T>({
-    resolver: zodResolver(schema as any) as any,
+    resolver: zodResolver(schema) as unknown as UseFormProps<T>["resolver"],
     defaultValues,
   })
 
   return (
     <Form {...methods}>
       <form 
-        onSubmit={methods.handleSubmit(onSubmit as any)} 
+        onSubmit={methods.handleSubmit(onSubmit)} 
         className={className}
       >
         <div className="space-y-8">
-          {children(methods as any)}
+          {children(methods)}
           
           <div className="flex items-center justify-end gap-4 border-t pt-6">
             <Button

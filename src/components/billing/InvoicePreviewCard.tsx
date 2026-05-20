@@ -1,11 +1,8 @@
 import React from 'react';
 import { 
-  FileText, 
   Download, 
   Share2, 
   Send, 
-  DollarSign, 
-  Calendar, 
   Building2, 
   User, 
   Check, 

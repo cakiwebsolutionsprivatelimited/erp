@@ -1,12 +1,10 @@
 import React from 'react';
 import { 
-  Package, 
   MapPin, 
   Tag, 
   Calendar, 
   Truck, 
   DollarSign, 
-  TrendingUp, 
   QrCode, 
   Copy, 
   Check, 

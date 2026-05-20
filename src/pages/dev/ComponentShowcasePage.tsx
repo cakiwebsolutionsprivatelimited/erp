@@ -32,7 +32,7 @@ import { FormWrapper } from '@/components/forms/FormWrapper';
 import { FormInput, FormSection } from '@/components/forms/FormComponents';
 import { userSchema } from '@/utils/validation-utils';
 import { notify } from '@/services/notificationService';
-import { Spinner, PageLoader } from '@/components/loaders';
+import { PageLoader } from '@/components/loaders';
 import { BaseModal } from '@/components/modals/BaseModal';
 import { useModals } from '@/hooks/useModals';
 import { 
@@ -46,18 +46,7 @@ import {
   Zap
 } from 'lucide-react';
 
-const sections = [
-  { id: 'buttons', label: 'Buttons', icon: Zap },
-  { id: 'forms', label: 'Forms & Inputs', icon: FormIcon },
-  { id: 'tables', label: 'Data Tables', icon: Database },
-  { id: 'dashboard', label: 'Dashboard Widgets', icon: LayoutDashboard },
-  { id: 'modals', label: 'Modals & Alerts', icon: MessageSquare },
-  { id: 'pricing', label: 'Pricing & SaaS', icon: Layers },
-  { id: 'profile', label: 'Identity', icon: Component },
-];
-
 const ComponentShowcasePage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('buttons');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoaderOpen, setIsLoaderOpen] = useState(false);
   const { confirm, remove } = useModals();
@@ -67,13 +56,6 @@ const ComponentShowcasePage: React.FC = () => {
     setTimeout(() => setIsLoaderOpen(false), 2000);
   };
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setActiveTab(id);
-    }
-  };
 
   return (
     <PageContainer showBreadcrumb={false}>

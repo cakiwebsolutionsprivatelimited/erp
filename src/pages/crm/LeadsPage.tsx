@@ -3,7 +3,7 @@ import { PageContainer, SectionHeader } from "@/components/common/PageLayout"
 import { LeadsTable } from "@/components/tables/leads/LeadsTable"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
-import { LeadDetailsDrawer } from "@/components/crm/LeadDetailsDrawer"
+import { LeadDetailsDrawer, type Lead } from "@/components/crm/LeadDetailsDrawer"
 import { notify } from "@/services/notificationService"
 import { useAppSelector, useAppDispatch } from "@/store"
 import { resetSearchQuery } from "@/store/features/searchSlice"
@@ -42,12 +42,12 @@ const CRMLeadsPage: React.FC = () => {
     );
   });
 
-  const handleRowClick = (lead: any) => {
+  const handleRowClick = (lead: typeof DEFAULT_LEADS[number]) => {
     setSelectedLeadId(lead.id)
     setIsDrawerOpen(true)
   }
 
-  const handleUpdateLead = (updatedLead: any) => {
+  const handleUpdateLead = (updatedLead: Lead) => {
     setLeads((prev) =>
       prev.map((lead) =>
         lead.id === updatedLead.id

@@ -1,6 +1,6 @@
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { cn } from "@/utils"
-import { ChevronDown, ChevronUp } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 
 function Accordion({
   className,

@@ -22,14 +22,15 @@ const Signup: React.FC = () => {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const onSubmit = async (values: SignupData) => {
+    void values;
     setIsLoading(true);
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1500));
       notify.success('Account created!', 'Please login with your credentials.');
       navigate('/login');
-    } catch (error: any) {
-      notify.error('Signup Failed', error.message);
+    } catch (error: unknown) {
+      notify.error('Signup Failed', error instanceof Error ? error.message : 'An unexpected error occurred');
     } finally {
       setIsLoading(false);
     }

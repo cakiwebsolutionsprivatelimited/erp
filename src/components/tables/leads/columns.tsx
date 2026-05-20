@@ -1,5 +1,5 @@
 import { type ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal, Building2, User, Phone, DollarSign } from "lucide-react"
+import { MoreHorizontal, Building2, User, Phone } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -118,8 +118,7 @@ export const columns: ColumnDef<LeadRow>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const lead = row.original
+    cell: () => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

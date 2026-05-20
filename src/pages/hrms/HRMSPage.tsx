@@ -17,12 +17,8 @@ import {
   Users, 
   UserPlus, 
   DollarSign, 
-  Calendar, 
   LayoutGrid, 
-  ListOrdered, 
-  CheckSquare, 
-  Sparkles,
-  TrendingUp
+  ListOrdered
 } from "lucide-react"
 
 import { useAppSelector, useAppDispatch } from "@/store"
@@ -34,7 +30,7 @@ export default function HRMSPage() {
   const [employees, setEmployees] = useState<Employee[]>(MOCK_EMPLOYEES)
   const [selectedEmpIds, setSelectedEmpIds] = useState<string[]>([])
   const [activeProfileEmpId, setActiveProfileEmpId] = useState<string>("EMP001")
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading] = useState(false)
 
   const searchQuery = useAppSelector((state) => state.search.query)
 

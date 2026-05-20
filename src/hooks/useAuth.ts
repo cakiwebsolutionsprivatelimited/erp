@@ -3,6 +3,11 @@ import { logout, setCredentials, setLoading } from '@/store/features/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { notify } from '@/services/notificationService';
 
+interface LoginCredentials {
+  email: string;
+  rememberMe?: boolean;
+}
+
 export const useAuth = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -14,7 +19,7 @@ export const useAuth = () => {
     navigate('/login');
   };
 
-  const login = async (credentials: any) => {
+  const login = async (credentials: LoginCredentials) => {
     dispatch(setLoading(true));
     try {
       // In a real app: const { data } = await api.post('/auth/login', credentials);
@@ -24,14 +29,14 @@ export const useAuth = () => {
       const mockResponse = {
         user: { id: '1', email: credentials.email, name: 'Admin User', role: 'admin' as const },
         token: 'mock-jwt-token',
-        rememberMe: credentials.rememberMe
+        rememberMe: credentials.rememberMe || false
       };
 
       dispatch(setCredentials(mockResponse));
       notify.success(`Welcome back, ${mockResponse.user.name}!`);
       navigate('/');
-    } catch (error: any) {
-      notify.error('Login Failed', error.message || 'Invalid credentials');
+    } catch (error: unknown) {
+      notify.error('Login Failed', error instanceof Error ? error.message : 'Invalid credentials');
     } finally {
       dispatch(setLoading(false));
     }

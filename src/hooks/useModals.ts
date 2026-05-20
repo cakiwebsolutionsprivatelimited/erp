@@ -1,5 +1,5 @@
 import { useAppDispatch } from '@/store';
-import { openModal, closeModal, type ModalType } from '@/store/features/modalSlice';
+import { openModal, closeModal } from '@/store/features/modalSlice';
 
 interface ModalOptions {
   title?: string;

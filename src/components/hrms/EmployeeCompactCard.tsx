@@ -1,5 +1,5 @@
 import React from "react"
-import { MoreHorizontal, User, Mail, Calendar, MapPin, CheckCircle, Clock, AlertTriangle, UserX } from "lucide-react"
+import { MoreHorizontal, User, Mail, Calendar, CheckCircle, Clock, AlertTriangle, UserX } from "lucide-react"
 
 import {
   DropdownMenu,

@@ -17,8 +17,6 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { 
   DollarSign, 
-  TrendingUp, 
-  TrendingDown, 
   FileText, 
   Clock, 
   AlertCircle, 
@@ -28,9 +26,7 @@ import {
   ListOrdered,
   Plus,
   RefreshCw,
-  Send,
-  Download,
-  Share2
+  Send
 } from "lucide-react"
 
 export default function InvoicePage() {

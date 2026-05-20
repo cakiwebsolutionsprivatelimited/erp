@@ -1,5 +1,5 @@
 import React from "react"
-import { MoreHorizontal, User, Mail, DollarSign, Calendar, RefreshCcw, Trash2, CheckCircle2, ShieldAlert, Sparkles } from "lucide-react"
+import { MoreHorizontal, User, DollarSign, Calendar, RefreshCcw, Trash2, CheckCircle2, ShieldAlert, Sparkles } from "lucide-react"
 
 import {
   DropdownMenu,

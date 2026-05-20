@@ -17,18 +17,14 @@ import {
   Clock, 
   FileText, 
   UploadCloud, 
-  ExternalLink, 
   Copy, 
   Check, 
   Briefcase, 
-  Search, 
   Send,
   Loader2,
   FileSpreadsheet,
   FileImage,
-  FileCode,
   Globe,
-  CornerDownRight,
   ShieldCheck,
   Zap
 } from "lucide-react"
@@ -36,8 +32,6 @@ import {
 import {
   Sheet,
   SheetContent,
-  SheetHeader,
-  SheetTitle,
 } from "@/components/ui/sheet"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"

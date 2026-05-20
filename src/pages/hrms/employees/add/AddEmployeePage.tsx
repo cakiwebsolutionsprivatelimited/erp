@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, type UseFormProps } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppSelector, useAppDispatch } from '@/store';
 import { setActiveTab, resetOnboardingState, addTimelineEvent } from '@/store/features/employeeOnboardingSlice';
 
-import { employeeOnboardingSchema, type EmployeeOnboardingData } from './schemas/employee.schema';
+import { employeeOnboardingSchema } from './schemas/employee.schema';
 import { type EmployeeFormData } from './types/employee.types';
 import { useEmployeeDraft } from './hooks/useEmployeeDraft';
 import { useEmployeeAutoSave } from './hooks/useEmployeeAutoSave';
@@ -124,7 +124,7 @@ export default function AddEmployeePage() {
 
   // Initialize Form
   const methods = useForm<EmployeeFormData>({
-    resolver: zodResolver(employeeOnboardingSchema) as any,
+    resolver: zodResolver(employeeOnboardingSchema) as unknown as UseFormProps<EmployeeFormData>["resolver"],
     defaultValues: INITIAL_FORM_VALUES,
     mode: 'onChange'
   });

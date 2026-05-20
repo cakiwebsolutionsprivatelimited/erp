@@ -1,13 +1,10 @@
 import React from 'react';
 import { 
-  Package, 
   MapPin, 
   ArrowLeftRight, 
   Plus, 
   MoreHorizontal, 
   TrendingUp, 
-  TrendingDown, 
-  DollarSign,
   AlertTriangle,
   AlertCircle
 } from 'lucide-react';

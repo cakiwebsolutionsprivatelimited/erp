@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react"
+import { useState, useCallback } from "react"
 import {
   type PaginationState,
   type SortingState,
@@ -17,28 +17,37 @@ export function useDataTable({ initialPageSize = 10 }: UseDataTableProps = {}) {
     pageSize: initialPageSize,
   })
 
-  const onPaginationChange = useCallback((updaterOrValue: any) => {
-    setPagination((prev) => {
-      const next = typeof updaterOrValue === "function" ? updaterOrValue(prev) : updaterOrValue
-      return next
-    })
-  }, [])
+  const onPaginationChange = useCallback(
+    (updaterOrValue: PaginationState | ((prev: PaginationState) => PaginationState)) => {
+      setPagination((prev) => {
+        const next = typeof updaterOrValue === "function" ? updaterOrValue(prev) : updaterOrValue
+        return next
+      })
+    },
+    []
+  )
 
-  const onSortingChange = useCallback((updaterOrValue: any) => {
-    setSorting((prev) => {
-      const next = typeof updaterOrValue === "function" ? updaterOrValue(prev) : updaterOrValue
-      return next
-    })
-  }, [])
+  const onSortingChange = useCallback(
+    (updaterOrValue: SortingState | ((prev: SortingState) => SortingState)) => {
+      setSorting((prev) => {
+        const next = typeof updaterOrValue === "function" ? updaterOrValue(prev) : updaterOrValue
+        return next
+      })
+    },
+    []
+  )
 
-  const onColumnFiltersChange = useCallback((updaterOrValue: any) => {
-    setColumnFilters((prev) => {
-      const next = typeof updaterOrValue === "function" ? updaterOrValue(prev) : updaterOrValue
-      return next
-    })
-    // Reset to first page when filters change
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }))
-  }, [])
+  const onColumnFiltersChange = useCallback(
+    (updaterOrValue: ColumnFiltersState | ((prev: ColumnFiltersState) => ColumnFiltersState)) => {
+      setColumnFilters((prev) => {
+        const next = typeof updaterOrValue === "function" ? updaterOrValue(prev) : updaterOrValue
+        return next
+      })
+      // Reset to first page when filters change
+      setPagination((prev) => ({ ...prev, pageIndex: 0 }))
+    },
+    []
+  )
 
   return {
     state: {

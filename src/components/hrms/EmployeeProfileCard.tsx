@@ -5,14 +5,10 @@ import {
   Phone, 
   Calendar, 
   Clock, 
-  Briefcase, 
-  Award, 
   Copy, 
   Check, 
   MessageSquare,
   Sparkles,
-  ExternalLink,
-  ShieldCheck,
   UserCheck
 } from "lucide-react"
 
