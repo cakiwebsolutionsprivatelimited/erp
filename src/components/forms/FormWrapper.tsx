@@ -1,13 +1,12 @@
 import * as React from "react"
 import { useForm, type UseFormReturn, type FieldValues, type UseFormProps } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { type ZodType } from "zod"
 import { Form } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 
 interface FormWrapperProps<T extends FieldValues> {
-  schema: ZodType<T, unknown, unknown>
+  schema: Parameters<typeof zodResolver>[0]
   defaultValues: UseFormProps<T>["defaultValues"]
   onSubmit: (values: T) => void | Promise<void>
   children: (methods: UseFormReturn<T>) => React.ReactNode

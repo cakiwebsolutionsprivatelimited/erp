@@ -1,72 +1,138 @@
-import { createHashRouter, RouterProvider, Navigate } from 'react-router-dom';
-import DashboardLayout from '@/layouts/DashboardLayout';
+import { createHashRouter, Navigate, RouterProvider, useParams } from 'react-router-dom';
 import AuthLayout from '@/layouts/AuthLayout';
 import ErrorLayout from '@/layouts/ErrorLayout';
 import ProtectedRoute from './ProtectedRoute';
-
-// Pages
 import Login from '@/pages/auth/Login';
-import Signup from '@/pages/auth/Signup';
 import ForgotPassword from '@/pages/auth/ForgotPassword';
-import ResetPassword from '@/pages/auth/ResetPassword';
-import Dashboard from '@/pages/dashboard/Dashboard';
-import Settings from '@/pages/settings/Settings';
-import Invoice from '@/pages/billing/Invoice';
-import Pricing from '@/pages/billing/Pricing';
 import NotFound from '@/pages/error/NotFound';
-import CRMLeadsPage from '@/pages/crm/LeadsPage';
-import ProfileFormPage from '@/pages/settings/ProfileForm';
-import ComponentShowcasePage from '@/pages/dev/ComponentShowcasePage';
-import HRMSPage from '@/pages/hrms/HRMSPage';
-import InventoryPage from '@/pages/inventory/InventoryPage';
-import AddEmployeePage from '@/pages/hrms/employees/add/AddEmployeePage';
-import EmployeeListPage from '@/pages/hrms/employees/list/EmployeeListPage';
+import AppLauncherPage from '@/tenant/pages/AppLauncherPage';
+import PlaceholderAppPage from '@/tenant/pages/PlaceholderAppPage';
+import { AppShell } from '@/tenant/components/TenantUI';
+import CrmDashboardPage from '@/tenant/pages/crm/CrmDashboardPage';
+import LeadsListPage from '@/tenant/pages/crm/LeadsListPage';
+import LeadFormPage from '@/tenant/pages/crm/LeadFormPage';
+import LeadDetailPage from '@/tenant/pages/crm/LeadDetailPage';
+import PipelinePage from '@/tenant/pages/crm/PipelinePage';
+import FollowUpsPage from '@/tenant/pages/crm/FollowUpsPage';
+import CustomersPage from '@/tenant/pages/crm/CustomersPage';
+import CustomerDetailPage from '@/tenant/pages/crm/CustomerDetailPage';
+import { CrmQuotationsPage, CrmReportsPage } from '@/tenant/pages/crm/CrmPlaceholderPages';
+import CrmActivitiesPage from '@/tenant/pages/crm/CrmActivitiesPage';
+import CrmSettingsPage from '@/tenant/pages/crm/CrmSettingsPage';
+import {
+  SalesDashboardPage,
+  SalesOrdersPage,
+  SalesProductsPage,
+  SalesQuotationFormPage,
+  SalesQuotationPreviewPage,
+  SalesQuotationsPage,
+  SalesReportsPage,
+  SalesSettingsPage,
+  SalesSubscriptionsPage,
+} from '@/tenant/pages/sales/SalesPages';
+import {
+  ActiveAppsSettingsPage,
+  CompanySettingsPage,
+  PlanUsageSettingsPage,
+  RolesSettingsPage,
+  UsersSettingsPage,
+} from '@/tenant/pages/settings/SettingsPages';
 
+const LegacyAppRedirect = () => {
+  const { appSlug } = useParams();
+  return <Navigate to={`/placeholder/${appSlug}`} replace />;
+};
+
+const PlaceholderRedirect = () => {
+  const { appSlug } = useParams();
+  const salesRoutes: Record<string, string> = {
+    sales: '/sales/dashboard',
+    quotations: '/sales/quotations',
+    subscriptions: '/sales/subscriptions',
+  };
+
+  if (appSlug && salesRoutes[appSlug]) {
+    return <Navigate to={salesRoutes[appSlug]} replace />;
+  }
+
+  return <PlaceholderAppPage />;
+};
 
 const router = createHashRouter([
-  // Public Dev Routes (No Auth)
-  {
-    path: '/dev',
-    element: <DashboardLayout />,
-    children: [
-      { path: 'components', element: <ComponentShowcasePage /> },
-    ],
-  },
-  // Auth Routes
   {
     path: '/',
     element: <AuthLayout />,
     children: [
       { path: 'login', element: <Login /> },
-      { path: 'signup', element: <Signup /> },
       { path: 'forgot-password', element: <ForgotPassword /> },
-      { path: 'reset-password', element: <ResetPassword /> },
     ],
   },
-  // Protected Dashboard Routes
   {
     path: '/',
     element: <ProtectedRoute />,
     children: [
+      { index: true, element: <Navigate to="/apps" replace /> },
+      { path: 'apps', element: <AppLauncherPage /> },
       {
-        element: <DashboardLayout />,
+        path: 'crm',
+        element: <AppShell section="crm" />,
         children: [
-          { index: true, element: <Dashboard /> },
-          { path: 'profile', element: <ProfileFormPage /> },
-          { path: 'settings', element: <Settings /> },
-          { path: 'invoices', element: <Invoice /> },
-          { path: 'pricing', element: <Pricing /> },
-          { path: 'crm', element: <CRMLeadsPage /> },
-          { path: 'hrms', element: <HRMSPage /> },
-          { path: 'hrms/employees/list', element: <EmployeeListPage /> },
-          { path: 'hrms/employees/add', element: <AddEmployeePage /> },
-          { path: 'inventory', element: <InventoryPage /> },
-          { path: 'billing', element: <div className="p-8">Billing Module</div> },
+          { index: true, element: <Navigate to="/crm/dashboard" replace /> },
+          { path: 'dashboard', element: <CrmDashboardPage /> },
+          { path: 'leads', element: <LeadsListPage /> },
+          { path: 'leads/new', element: <LeadFormPage /> },
+          { path: 'leads/:id', element: <LeadDetailPage /> },
+          { path: 'leads/:id/edit', element: <LeadFormPage /> },
+          { path: 'pipeline', element: <PipelinePage /> },
+          { path: 'follow-ups', element: <FollowUpsPage /> },
+          { path: 'customers', element: <CustomersPage /> },
+          { path: 'customers/:id', element: <CustomerDetailPage /> },
+          { path: 'activities', element: <CrmActivitiesPage /> },
+          { path: 'quotations', element: <CrmQuotationsPage /> },
+          { path: 'reports', element: <CrmReportsPage /> },
+          { path: 'settings', element: <CrmSettingsPage /> },
         ],
       },
+      {
+        path: 'sales',
+        element: <AppShell section="sales" />,
+        children: [
+          { index: true, element: <Navigate to="/sales/dashboard" replace /> },
+          { path: 'dashboard', element: <SalesDashboardPage /> },
+          { path: 'quotations', element: <SalesQuotationsPage /> },
+          { path: 'quotations/new', element: <SalesQuotationFormPage /> },
+          { path: 'quotations/:id', element: <SalesQuotationPreviewPage /> },
+          { path: 'quotations/:id/edit', element: <SalesQuotationFormPage /> },
+          { path: 'orders', element: <SalesOrdersPage /> },
+          { path: 'products-services', element: <SalesProductsPage /> },
+          { path: 'customers', element: <CustomersPage /> },
+          { path: 'subscriptions', element: <SalesSubscriptionsPage /> },
+          { path: 'reports', element: <SalesReportsPage /> },
+          { path: 'settings', element: <SalesSettingsPage /> },
+        ],
+      },
+      {
+        path: 'settings',
+        element: <AppShell section="settings" />,
+        children: [
+          { index: true, element: <Navigate to="/settings/company" replace /> },
+          { path: 'company', element: <CompanySettingsPage /> },
+          { path: 'users', element: <UsersSettingsPage /> },
+          { path: 'roles', element: <RolesSettingsPage /> },
+          { path: 'apps', element: <ActiveAppsSettingsPage /> },
+          { path: 'plan-usage', element: <PlanUsageSettingsPage /> },
+        ],
+      },
+      {
+        path: 'placeholder',
+        element: <AppShell section="placeholder" />,
+        children: [
+          { path: ':appSlug', element: <PlaceholderRedirect /> },
+        ],
+      },
+      { path: 'app/:appSlug', element: <LegacyAppRedirect /> },
     ],
   },
-  // Error Routes
   {
     path: '*',
     element: <ErrorLayout />,
@@ -77,6 +143,4 @@ const router = createHashRouter([
   },
 ]);
 
-export const AppRouter = () => {
-  return <RouterProvider router={router} />;
-};
+export const AppRouter = () => <RouterProvider router={router} />;

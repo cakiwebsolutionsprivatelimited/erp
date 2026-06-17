@@ -5,6 +5,7 @@ import { notify } from '@/services/notificationService';
 
 interface LoginCredentials {
   email: string;
+  password?: string;
   rememberMe?: boolean;
 }
 
@@ -34,7 +35,7 @@ export const useAuth = () => {
 
       dispatch(setCredentials(mockResponse));
       notify.success(`Welcome back, ${mockResponse.user.name}!`);
-      navigate('/');
+      navigate('/apps');
     } catch (error: unknown) {
       notify.error('Login Failed', error instanceof Error ? error.message : 'Invalid credentials');
     } finally {
