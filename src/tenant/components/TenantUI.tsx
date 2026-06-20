@@ -3,6 +3,7 @@ import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-do
 import {
   AppWindow,
   Bell,
+  Boxes,
   Building2,
   CalendarDays,
   CheckCircle2,
@@ -28,6 +29,18 @@ import {
   ReceiptText,
   PackageCheck,
   Repeat,
+  Landmark,
+  WalletCards,
+  BriefcaseBusiness,
+  FolderKanban,
+  Headphones,
+  Wrench,
+  MapPinned,
+  Globe2,
+  FormInput,
+  Inbox,
+  Palette,
+  SearchCheck,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -36,7 +49,7 @@ import { useTenantData } from '@/tenant/state/TenantDataProvider';
 import type { AppStatus, FollowUp, Lead, LeadStage, TenantApp } from '@/tenant/types';
 import { cn } from '@/utils';
 
-type ModuleSection = 'crm' | 'sales' | 'settings' | 'placeholder';
+type ModuleSection = 'crm' | 'sales' | 'finance' | 'inventory' | 'services' | 'hr' | 'website' | 'settings' | 'placeholder';
 
 const moduleMeta: Record<ModuleSection, {
   name: string;
@@ -64,6 +77,51 @@ const moduleMeta: Record<ModuleSection, {
     softAccent: 'bg-teal-50 border-teal-100',
     textAccent: 'text-teal-700',
     icon: ShoppingCart,
+  },
+  finance: {
+    name: 'Finance',
+    label: 'Finance Module',
+    description: 'Billing, GST, payments, expenses',
+    accent: 'from-cyan-700 to-blue-500',
+    softAccent: 'bg-cyan-50 border-cyan-100',
+    textAccent: 'text-cyan-700',
+    icon: Landmark,
+  },
+  inventory: {
+    name: 'Inventory',
+    label: 'Inventory Module',
+    description: 'Products, stock, purchase, warehouses',
+    accent: 'from-emerald-700 to-teal-500',
+    softAccent: 'bg-emerald-50 border-emerald-100',
+    textAccent: 'text-emerald-700',
+    icon: PackageCheck,
+  },
+  services: {
+    name: 'Services',
+    label: 'Services Module',
+    description: 'Projects, support, visits, work orders',
+    accent: 'from-violet-700 to-indigo-500',
+    softAccent: 'bg-violet-50 border-violet-100',
+    textAccent: 'text-violet-700',
+    icon: BriefcaseBusiness,
+  },
+  hr: {
+    name: 'HR',
+    label: 'HR Module',
+    description: 'Employees, attendance, leave, payroll',
+    accent: 'from-rose-700 to-orange-500',
+    softAccent: 'bg-rose-50 border-rose-100',
+    textAccent: 'text-rose-700',
+    icon: Users,
+  },
+  website: {
+    name: 'Website',
+    label: 'Website Module',
+    description: 'Pages, landing pages, forms, enquiries',
+    accent: 'from-blue-700 to-cyan-500',
+    softAccent: 'bg-blue-50 border-blue-100',
+    textAccent: 'text-blue-700',
+    icon: Globe2,
   },
   settings: {
     name: 'Settings',
@@ -229,8 +287,81 @@ const salesLinks = [
   { to: '/sales/settings', label: 'Sales Settings', icon: SlidersHorizontal },
 ];
 
+const financeLinks = [
+  { to: '/finance/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/finance/invoices', label: 'Invoices', icon: ReceiptText },
+  { to: '/finance/invoices/new', label: 'GST Invoicing', icon: FileText },
+  { to: '/finance/payments', label: 'Payments', icon: WalletCards },
+  { to: '/finance/expenses', label: 'Expenses', icon: CircleDollarSign },
+  { to: '/finance/customer-ledger', label: 'Customer Ledger', icon: Users },
+  { to: '/finance/supplier-ledger', label: 'Supplier Ledger', icon: Landmark },
+  { to: '/finance/reports', label: 'Reports', icon: Gauge },
+  { to: '/finance/settings', label: 'Finance Settings', icon: SlidersHorizontal },
+];
+
+const inventoryLinks = [
+  { to: '/inventory/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/inventory/products', label: 'Products', icon: PackageCheck },
+  { to: '/inventory/stock', label: 'Stock', icon: Boxes },
+  { to: '/inventory/purchase', label: 'Purchase', icon: ShoppingCart },
+  { to: '/inventory/suppliers', label: 'Suppliers', icon: Users },
+  { to: '/inventory/warehouses', label: 'Warehouses', icon: Building2 },
+  { to: '/inventory/transfers', label: 'Stock Transfers', icon: Repeat },
+  { to: '/inventory/reports', label: 'Reports', icon: Gauge },
+  { to: '/inventory/settings', label: 'Inventory Settings', icon: SlidersHorizontal },
+];
+
+const servicesLinks = [
+  { to: '/services/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/services/projects', label: 'Projects', icon: FolderKanban },
+  { to: '/services/tasks', label: 'Tasks', icon: ClipboardList },
+  { to: '/services/helpdesk', label: 'Helpdesk Tickets', icon: Headphones },
+  { to: '/services/field-service', label: 'Field Service', icon: MapPinned },
+  { to: '/services/work-orders', label: 'Work Orders', icon: Wrench },
+  { to: '/services/calendar', label: 'Calendar', icon: CalendarDays },
+  { to: '/services/reports', label: 'Reports', icon: Gauge },
+  { to: '/services/settings', label: 'Service Settings', icon: SlidersHorizontal },
+];
+
+const hrLinks = [
+  { to: '/hr/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/hr/employees', label: 'Employees', icon: Users },
+  { to: '/hr/attendance', label: 'Attendance', icon: CalendarDays },
+  { to: '/hr/leave', label: 'Leave', icon: History },
+  { to: '/hr/payroll', label: 'Payroll', icon: WalletCards },
+  { to: '/hr/departments', label: 'Departments', icon: Building2 },
+  { to: '/hr/documents', label: 'Documents', icon: FileText },
+  { to: '/hr/reports', label: 'Reports', icon: Gauge },
+  { to: '/hr/settings', label: 'HR Settings', icon: SlidersHorizontal },
+];
+
+const websiteLinks = [
+  { to: '/website/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/website/pages', label: 'Pages', icon: FileText },
+  { to: '/website/landing-pages', label: 'Landing Pages', icon: Globe2 },
+  { to: '/website/forms', label: 'Forms', icon: FormInput },
+  { to: '/website/submissions', label: 'Submissions', icon: Inbox },
+  { to: '/website/themes', label: 'Themes', icon: Palette },
+  { to: '/website/seo-settings', label: 'SEO Settings', icon: SearchCheck },
+  { to: '/website/settings', label: 'Website Settings', icon: SlidersHorizontal },
+];
+
 export const ModuleSidebar: React.FC<{ section?: ModuleSection }> = ({ section = 'crm' }) => {
-  const links = section === 'settings' ? settingsLinks : section === 'sales' ? salesLinks : crmLinks;
+  const links = section === 'settings'
+    ? settingsLinks
+    : section === 'sales'
+      ? salesLinks
+      : section === 'finance'
+        ? financeLinks
+        : section === 'inventory'
+          ? inventoryLinks
+          : section === 'services'
+            ? servicesLinks
+            : section === 'hr'
+              ? hrLinks
+              : section === 'website'
+                ? websiteLinks
+                : crmLinks;
   const meta = moduleMeta[section];
   const ModuleIcon = meta.icon;
 
