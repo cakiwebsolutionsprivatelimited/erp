@@ -3,25 +3,30 @@ import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-do
 import {
   AppWindow,
   Bell,
+  BookOpen,
   Boxes,
   Building2,
   CalendarDays,
   CheckCircle2,
   ChevronLeft,
+  Clock3,
   CircleDollarSign,
   ClipboardList,
   FileText,
   Gauge,
   Grid3X3,
+  Laptop,
   LayoutDashboard,
   Lock,
   LogOut,
   Menu,
+  Percent,
   PlusCircle,
   Search,
   Sparkles,
   ShoppingCart,
   Target,
+  Trophy,
   UserCircle,
   Users,
   History,
@@ -36,16 +41,21 @@ import {
   Headphones,
   Wrench,
   MapPinned,
+  Megaphone,
+  MessageCircle,
   Globe2,
   FormInput,
   Inbox,
   Palette,
   SearchCheck,
+  ShieldCheck,
+  Tags,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
 import { useTenantData } from '@/tenant/state/TenantDataProvider';
+import { HrRestrictedState, getHrMenuForPath, useHrAccess } from '@/tenant/hr/HrAccess';
 import type { AppStatus, FollowUp, Lead, LeadStage, TenantApp } from '@/tenant/types';
 import { cn } from '@/utils';
 
@@ -259,10 +269,22 @@ export const AppCard: React.FC<{ app: TenantApp; onAction: (app: TenantApp) => v
 const crmLinks = [
   { to: '/crm/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/crm/leads', label: 'Leads', icon: ClipboardList },
+  { to: '/crm/companies', label: 'Companies', icon: Building2 },
+  { to: '/crm/contacts', label: 'Contacts', icon: UserCircle },
   { to: '/crm/pipeline', label: 'Pipeline', icon: Gauge },
   { to: '/crm/follow-ups', label: 'Follow-ups', icon: CalendarDays },
   { to: '/crm/customers', label: 'Customers', icon: Users },
   { to: '/crm/activities', label: 'Activities', icon: History },
+  { to: '/crm/communications', label: 'Communications', icon: MessageCircle },
+  { to: '/crm/campaigns', label: 'Campaigns', icon: Megaphone },
+  { to: '/crm/support', label: 'Support', icon: Headphones },
+  { to: '/crm/documents', label: 'Documents', icon: FileText },
+  { to: '/crm/segments', label: 'Segments', icon: Tags },
+  { to: '/crm/automation', label: 'Automation', icon: Sparkles },
+  { to: '/crm/approvals', label: 'Approvals', icon: ShieldCheck },
+  { to: '/crm/analytics', label: 'Analytics', icon: Gauge },
+  { to: '/crm/admin', label: 'Admin', icon: Lock },
+  { to: '/crm/ai-assistant', label: 'AI Assistant', icon: SearchCheck },
   { to: '/crm/quotations', label: 'Quotations', icon: FileText },
   { to: '/crm/reports', label: 'Reports', icon: CircleDollarSign },
   { to: '/crm/settings', label: 'CRM Settings', icon: SlidersHorizontal },
@@ -295,6 +317,12 @@ const financeLinks = [
   { to: '/finance/expenses', label: 'Expenses', icon: CircleDollarSign },
   { to: '/finance/customer-ledger', label: 'Customer Ledger', icon: Users },
   { to: '/finance/supplier-ledger', label: 'Supplier Ledger', icon: Landmark },
+  { to: '/finance/accounting', label: 'Accounting', icon: BookOpen },
+  { to: '/finance/payables', label: 'Payables', icon: ReceiptText },
+  { to: '/finance/banking', label: 'Banking', icon: WalletCards },
+  { to: '/finance/compliance', label: 'Tax & Compliance', icon: Percent },
+  { to: '/finance/planning-assets', label: 'Planning & Assets', icon: BriefcaseBusiness },
+  { to: '/finance/advanced-admin', label: 'Advanced Admin', icon: ShieldCheck },
   { to: '/finance/reports', label: 'Reports', icon: Gauge },
   { to: '/finance/settings', label: 'Finance Settings', icon: SlidersHorizontal },
 ];
@@ -302,12 +330,18 @@ const financeLinks = [
 const inventoryLinks = [
   { to: '/inventory/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/inventory/products', label: 'Products', icon: PackageCheck },
+  { to: '/inventory/catalog', label: 'Catalog Setup', icon: Tags },
+  { to: '/inventory/tracking', label: 'Tracking', icon: SearchCheck },
   { to: '/inventory/stock', label: 'Stock', icon: Boxes },
   { to: '/inventory/purchase', label: 'Purchase', icon: ShoppingCart },
+  { to: '/inventory/purchase-operations', label: 'Purchase Ops', icon: ReceiptText },
   { to: '/inventory/suppliers', label: 'Suppliers', icon: Users },
   { to: '/inventory/warehouses', label: 'Warehouses', icon: Building2 },
+  { to: '/inventory/warehouse-operations', label: 'Warehouse Ops', icon: MapPinned },
+  { to: '/inventory/fulfillment', label: 'Fulfillment', icon: ClipboardList },
   { to: '/inventory/transfers', label: 'Stock Transfers', icon: Repeat },
   { to: '/inventory/reports', label: 'Reports', icon: Gauge },
+  { to: '/inventory/insights', label: 'Insights & Admin', icon: Sparkles },
   { to: '/inventory/settings', label: 'Inventory Settings', icon: SlidersHorizontal },
 ];
 
@@ -326,11 +360,17 @@ const servicesLinks = [
 const hrLinks = [
   { to: '/hr/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/hr/employees', label: 'Employees', icon: Users },
+  { to: '/hr/recruitment', label: 'Recruitment', icon: BriefcaseBusiness },
+  { to: '/hr/onboarding', label: 'Onboarding', icon: ClipboardList },
   { to: '/hr/attendance', label: 'Attendance', icon: CalendarDays },
+  { to: '/hr/shifts', label: 'Shifts & Roster', icon: Clock3 },
   { to: '/hr/leave', label: 'Leave', icon: History },
   { to: '/hr/payroll', label: 'Payroll', icon: WalletCards },
+  { to: '/hr/performance', label: 'Performance', icon: Trophy },
+  { to: '/hr/self-service', label: 'Self Service', icon: UserCircle },
   { to: '/hr/departments', label: 'Departments', icon: Building2 },
   { to: '/hr/documents', label: 'Documents', icon: FileText },
+  { to: '/hr/assets', label: 'Assets', icon: Laptop },
   { to: '/hr/reports', label: 'Reports', icon: Gauge },
   { to: '/hr/settings', label: 'HR Settings', icon: SlidersHorizontal },
 ];
@@ -346,22 +386,26 @@ const websiteLinks = [
   { to: '/website/settings', label: 'Website Settings', icon: SlidersHorizontal },
 ];
 
+const getSectionLinks = (section: ModuleSection) => section === 'settings'
+  ? settingsLinks
+  : section === 'sales'
+    ? salesLinks
+    : section === 'finance'
+      ? financeLinks
+      : section === 'inventory'
+        ? inventoryLinks
+        : section === 'services'
+          ? servicesLinks
+          : section === 'hr'
+            ? hrLinks
+            : section === 'website'
+              ? websiteLinks
+              : crmLinks;
+
 export const ModuleSidebar: React.FC<{ section?: ModuleSection }> = ({ section = 'crm' }) => {
-  const links = section === 'settings'
-    ? settingsLinks
-    : section === 'sales'
-      ? salesLinks
-      : section === 'finance'
-        ? financeLinks
-        : section === 'inventory'
-          ? inventoryLinks
-          : section === 'services'
-            ? servicesLinks
-            : section === 'hr'
-              ? hrLinks
-              : section === 'website'
-                ? websiteLinks
-                : crmLinks;
+  const hrAccess = useHrAccess();
+  const links = getSectionLinks(section);
+  const visibleLinks = section === 'hr' ? links.filter((item) => hrAccess.canAccessMenu(item.label)) : links;
   const meta = moduleMeta[section];
   const ModuleIcon = meta.icon;
 
@@ -384,7 +428,7 @@ export const ModuleSidebar: React.FC<{ section?: ModuleSection }> = ({ section =
         </div>
       </div>
       <nav className="space-y-1 p-3">
-        {links.map((item) => (
+        {visibleLinks.map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
@@ -406,10 +450,14 @@ export const ModuleSidebar: React.FC<{ section?: ModuleSection }> = ({ section =
 
 export const AppShell: React.FC<{ section?: ModuleSection }> = ({ section = 'crm' }) => {
   const location = useLocation();
+  const hrAccess = useHrAccess();
   const meta = moduleMeta[section];
   const ModuleIcon = meta.icon;
   const pathParts = location.pathname.split('/').filter(Boolean);
   const currentPage = pathParts[1]?.replace(/-/g, ' ') || 'dashboard';
+  const hasHrAccess = section !== 'hr' || hrAccess.canAccessPath(location.pathname);
+  const currentHrMenu = getHrMenuForPath(location.pathname);
+  const mobileLinks = getSectionLinks(section).filter((item) => section !== 'hr' || hrAccess.canAccessMenu(item.label));
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -428,13 +476,42 @@ export const AppShell: React.FC<{ section?: ModuleSection }> = ({ section = 'crm
                   <h1 className="text-xl font-semibold text-slate-950">{meta.name}</h1>
                 </div>
               </div>
-              <div className="rounded-md border border-white/70 bg-white/80 px-3 py-1.5 text-sm font-medium capitalize text-slate-600 shadow-sm">
-                {meta.name} / {currentPage}
+              <div className="flex flex-wrap gap-2">
+                {section === 'hr' && (
+                  <label className="flex items-center gap-2 rounded-md border border-white/70 bg-white/80 px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm">
+                    <ShieldCheck className="h-4 w-4 text-rose-700" />
+                    <select className="bg-transparent outline-none" value={hrAccess.activeRole} onChange={(event) => hrAccess.setActiveRole(event.target.value as typeof hrAccess.activeRole)} aria-label="Active HR role">
+                      {hrAccess.roleOptions.map((role) => <option key={role} value={role}>{role}</option>)}
+                    </select>
+                  </label>
+                )}
+                <div className="rounded-md border border-white/70 bg-white/80 px-3 py-1.5 text-sm font-medium capitalize text-slate-600 shadow-sm">
+                  {meta.name} / {currentPage}
+                </div>
               </div>
             </div>
           </div>
+          <nav className="border-b border-slate-200 bg-white px-4 py-2 lg:hidden" aria-label={`${meta.name} module navigation`}>
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {mobileLinks.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  className={({ isActive }) =>
+                    cn(
+                      'flex h-10 shrink-0 items-center gap-2 rounded-sm border px-3 text-sm font-medium transition',
+                      isActive ? 'border-indigo-200 bg-indigo-50 text-indigo-700' : 'border-slate-200 bg-white text-slate-600'
+                    )
+                  }
+                >
+                  <item.icon className="h-4 w-4" />
+                  <span>{item.label}</span>
+                </NavLink>
+              ))}
+            </div>
+          </nav>
           <div className="p-4 md:p-6">
-            <Outlet />
+            {hasHrAccess ? <Outlet /> : <HrRestrictedState menu={currentHrMenu} />}
           </div>
         </main>
       </div>

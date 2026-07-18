@@ -5,11 +5,13 @@ import { Button } from '@/components/ui/button';
 import { DataTable, PageHeader, StatCard, formatINR } from '@/tenant/components/TenantUI';
 import { HrStatusBadge } from '@/tenant/hr/HrStatusBadge';
 import { useHrData } from '@/tenant/hr/HrDataProvider';
+import { useHrAccess } from '@/tenant/hr/HrAccess';
 import { HR_DEMO_TODAY, getDepartmentHeadcount, getHrMetrics, getMonthlyPayrollCost } from '@/tenant/hr/hrDemoService';
 
 const HrDashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const hr = useHrData();
+  const access = useHrAccess();
   const metrics = getHrMetrics(hr);
   const departmentHeadcount = getDepartmentHeadcount(hr);
   const leaveStatuses = ['Pending', 'Approved', 'Rejected', 'Cancelled'];
@@ -37,7 +39,7 @@ const HrDashboardPage: React.FC = () => {
       </section>
       <section className="mt-5 grid gap-5 xl:grid-cols-2">
         <ChartPanel title="Leave summary">{leaveStatuses.map((status) => { const count = hr.leaveRequests.filter((leave) => leave.status === status).length; return <Bar key={status} label={status} value={count} percent={(count / hr.leaveRequests.length) * 100} tone={status === 'Approved' ? 'bg-emerald-600' : status === 'Rejected' ? 'bg-red-500' : 'bg-amber-500'} />; })}</ChartPanel>
-        <ChartPanel title="Payroll cost trend">{['March', 'April', 'May', 'June'].map((month, index) => <Bar key={month} label={month} value={formatINR(Math.round(payroll * (0.92 + index * 0.025)))} percent={92 + index * 2.5} tone="bg-cyan-600" />)}</ChartPanel>
+        <ChartPanel title="Payroll cost trend">{['March', 'April', 'May', 'June'].map((month, index) => <Bar key={month} label={month} value={access.canViewSalary ? formatINR(Math.round(payroll * (0.92 + index * 0.025))) : 'Restricted'} percent={92 + index * 2.5} tone="bg-cyan-600" />)}</ChartPanel>
       </section>
 
       <section className="mt-5 grid gap-5 xl:grid-cols-2">

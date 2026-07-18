@@ -1,10 +1,12 @@
 import React from 'react';
-import { RotateCcw } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { RotateCcw, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DataTable, PageHeader } from '@/tenant/components/TenantUI';
 import { useInventoryData } from '@/tenant/inventory/state/InventoryDataProvider';
 
 const InventorySettingsPage: React.FC = () => {
+  const navigate = useNavigate();
   const inventory = useInventoryData();
 
   return (
@@ -12,13 +14,21 @@ const InventorySettingsPage: React.FC = () => {
       <PageHeader
         title="Inventory Settings"
         description="Demo configuration for units, categories, valuation, stock rules, and reset controls."
-        action={<Button variant="outline" onClick={inventory.resetInventoryData}><RotateCcw className="h-3.5 w-3.5" />Reset Demo Data</Button>}
+        action={(
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" onClick={() => navigate('/inventory/insights')}><Sparkles className="h-3.5 w-3.5" />Insights & Admin</Button>
+            <Button variant="outline" onClick={inventory.resetInventoryData}><RotateCcw className="h-3.5 w-3.5" />Reset Demo Data</Button>
+          </div>
+        )}
       />
 
-      <section className="grid gap-4 xl:grid-cols-3">
+      <section className="grid gap-4 xl:grid-cols-6">
         <SettingsCard title="Stock valuation" value="Moving average" hint="Demo reports use purchase price for current stock value." />
         <SettingsCard title="Default warehouse" value={inventory.warehouses[0]?.name || 'Main Warehouse'} hint="Purchase receipts land here in the local demo." />
         <SettingsCard title="Reorder policy" value="Manual review" hint="Low stock badges trigger when current stock reaches reorder level." />
+        <SettingsCard title="Integrations" value={`${inventory.integrations.length} previews`} hint="Static connector readiness and sync status." />
+        <SettingsCard title="Automation rules" value={`${inventory.automationRules.length} rules`} hint="Seeded local workflow previews only." />
+        <SettingsCard title="Templates" value={`${inventory.documentTemplates.length} layouts`} hint="Purchase, challan, label, and inventory document previews." />
       </section>
 
       <section className="mt-5 grid gap-5 xl:grid-cols-2">

@@ -12,12 +12,16 @@ import CrmDashboardPage from '@/tenant/pages/crm/CrmDashboardPage';
 import LeadsListPage from '@/tenant/pages/crm/LeadsListPage';
 import LeadFormPage from '@/tenant/pages/crm/LeadFormPage';
 import LeadDetailPage from '@/tenant/pages/crm/LeadDetailPage';
+import { CompaniesPage, CompanyDetailPage } from '@/tenant/pages/crm/CompaniesPage';
+import { ContactsPage, ContactDetailPage } from '@/tenant/pages/crm/ContactsPage';
 import PipelinePage from '@/tenant/pages/crm/PipelinePage';
 import FollowUpsPage from '@/tenant/pages/crm/FollowUpsPage';
 import CustomersPage from '@/tenant/pages/crm/CustomersPage';
 import CustomerDetailPage from '@/tenant/pages/crm/CustomerDetailPage';
 import { CrmQuotationsPage, CrmReportsPage } from '@/tenant/pages/crm/CrmPlaceholderPages';
 import CrmActivitiesPage from '@/tenant/pages/crm/CrmActivitiesPage';
+import { CrmCampaignsPage, CrmCommunicationsPage, CrmDocumentsPage, CrmSegmentsPage, CrmSupportPage } from '@/tenant/pages/crm/CrmPhase3Pages';
+import { CrmAdminPage, CrmAiAssistantPage, CrmAnalyticsPage, CrmApprovalsPage, CrmAutomationPage } from '@/tenant/pages/crm/CrmPhase4Pages';
 import CrmSettingsPage from '@/tenant/pages/crm/CrmSettingsPage';
 import {
   SalesDashboardPage,
@@ -37,18 +41,30 @@ import InvoicePreviewPage from '@/tenant/pages/finance/InvoicePreviewPage';
 import PaymentsPage from '@/tenant/pages/finance/PaymentsPage';
 import ExpensesPage from '@/tenant/pages/finance/ExpensesPage';
 import { CustomerLedgerPage, SupplierLedgerPage } from '@/tenant/pages/finance/LedgerPages';
+import FinanceAccountingPage from '@/tenant/pages/finance/FinanceAccountingPage';
+import FinancePayablesPage from '@/tenant/pages/finance/FinancePayablesPage';
+import FinanceBankingPage from '@/tenant/pages/finance/FinanceBankingPage';
+import FinanceCompliancePage from '@/tenant/pages/finance/FinanceCompliancePage';
+import FinancePlanningAssetsPage from '@/tenant/pages/finance/FinancePlanningAssetsPage';
+import FinanceAdvancedAdminPage from '@/tenant/pages/finance/FinanceAdvancedAdminPage';
 import FinanceReportsPage from '@/tenant/pages/finance/FinanceReportsPage';
 import FinanceSettingsPage from '@/tenant/pages/finance/FinanceSettingsPage';
 import InventoryDashboardPage from '@/tenant/pages/inventory/InventoryDashboardPage';
+import InventoryCatalogPage from '@/tenant/pages/inventory/InventoryCatalogPage';
+import InventoryTrackingPage from '@/tenant/pages/inventory/InventoryTrackingPage';
 import ProductsPage from '@/tenant/pages/inventory/ProductsPage';
 import ProductFormPage from '@/tenant/pages/inventory/ProductFormPage';
 import StockPage from '@/tenant/pages/inventory/StockPage';
 import PurchasePage from '@/tenant/pages/inventory/PurchasePage';
+import PurchaseOperationsPage from '@/tenant/pages/inventory/PurchaseOperationsPage';
 import PurchaseOrderFormPage from '@/tenant/pages/inventory/PurchaseOrderFormPage';
 import SuppliersPage from '@/tenant/pages/inventory/SuppliersPage';
 import WarehousesPage from '@/tenant/pages/inventory/WarehousesPage';
+import WarehouseOperationsPage from '@/tenant/pages/inventory/WarehouseOperationsPage';
+import OrderFulfillmentPage from '@/tenant/pages/inventory/OrderFulfillmentPage';
 import TransfersPage from '@/tenant/pages/inventory/TransfersPage';
 import InventoryReportsPage from '@/tenant/pages/inventory/InventoryReportsPage';
+import InventoryInsightsPage from '@/tenant/pages/inventory/InventoryInsightsPage';
 import InventorySettingsPage from '@/tenant/pages/inventory/InventorySettingsPage';
 import ServicesDashboardPage from '@/tenant/pages/services/ServicesDashboardPage';
 import ProjectsPage from '@/tenant/pages/services/ProjectsPage';
@@ -61,10 +77,14 @@ import ServicesReportsPage from '@/tenant/pages/services/ServicesReportsPage';
 import ServicesSettingsPage from '@/tenant/pages/services/ServicesSettingsPage';
 import HrDashboardPage from '@/tenant/pages/hr/HrDashboardPage';
 import EmployeesPage from '@/tenant/pages/hr/EmployeesPage';
+import RecruitmentPage from '@/tenant/pages/hr/RecruitmentPage';
 import AttendancePage from '@/tenant/pages/hr/AttendancePage';
 import LeavePage from '@/tenant/pages/hr/LeavePage';
 import PayrollPage from '@/tenant/pages/hr/PayrollPage';
-import { DepartmentsPage, HrDocumentsPage, HrReportsPage, HrSettingsPage } from '@/tenant/pages/hr/HrUtilityPages';
+import PerformancePage from '@/tenant/pages/hr/PerformancePage';
+import SelfServicePage from '@/tenant/pages/hr/SelfServicePage';
+import AssetsPage from '@/tenant/pages/hr/AssetsPage';
+import { DepartmentsPage, HrDocumentsPage, HrReportsPage, HrSettingsPage, OnboardingPage, ShiftRosterPage } from '@/tenant/pages/hr/HrUtilityPages';
 import WebsiteDashboardPage from '@/tenant/pages/website/WebsiteDashboardPage';
 import WebsitePagesPage from '@/tenant/pages/website/WebsitePagesPage';
 import LandingPagesPage from '@/tenant/pages/website/LandingPagesPage';
@@ -92,7 +112,7 @@ const PlaceholderRedirect = () => {
     subscriptions: '/sales/subscriptions',
     billing: '/finance/invoices',
     'gst-invoicing': '/finance/invoices/new',
-    accounts: '/finance/customer-ledger',
+    accounts: '/finance/accounting',
     expenses: '/finance/expenses',
     products: '/inventory/products',
     stock: '/inventory/stock',
@@ -102,13 +122,35 @@ const PlaceholderRedirect = () => {
     tasks: '/services/tasks',
     helpdesk: '/services/helpdesk',
     'field-service': '/services/field-service',
+    hr: '/hr/dashboard',
     employees: '/hr/employees',
+    recruitment: '/hr/recruitment',
+    onboarding: '/hr/onboarding',
     attendance: '/hr/attendance',
+    'hr-shifts': '/hr/shifts',
+    shifts: '/hr/shifts',
     leave: '/hr/leave',
     payroll: '/hr/payroll',
+    performance: '/hr/performance',
+    'self-service': '/hr/self-service',
+    'hr-departments': '/hr/departments',
+    'hr-documents': '/hr/documents',
+    assets: '/hr/assets',
+    'hr-reports': '/hr/reports',
+    'hr-settings': '/hr/settings',
     'website-builder': '/website/pages',
     'landing-pages': '/website/landing-pages',
     forms: '/website/forms',
+    email: '/crm/communications',
+    whatsapp: '/crm/communications',
+    sms: '/crm/communications',
+    campaigns: '/crm/campaigns',
+    notes: '/crm/documents',
+    documents: '/crm/documents',
+    approvals: '/crm/approvals',
+    workflows: '/crm/automation',
+    'custom-fields': '/crm/admin',
+    'form-builder': '/crm/admin',
   };
 
   if (appSlug && salesRoutes[appSlug]) {
@@ -143,11 +185,25 @@ const router = createHashRouter([
           { path: 'leads/new', element: <LeadFormPage /> },
           { path: 'leads/:id', element: <LeadDetailPage /> },
           { path: 'leads/:id/edit', element: <LeadFormPage /> },
+          { path: 'companies', element: <CompaniesPage /> },
+          { path: 'companies/:id', element: <CompanyDetailPage /> },
+          { path: 'contacts', element: <ContactsPage /> },
+          { path: 'contacts/:id', element: <ContactDetailPage /> },
           { path: 'pipeline', element: <PipelinePage /> },
           { path: 'follow-ups', element: <FollowUpsPage /> },
           { path: 'customers', element: <CustomersPage /> },
           { path: 'customers/:id', element: <CustomerDetailPage /> },
           { path: 'activities', element: <CrmActivitiesPage /> },
+          { path: 'communications', element: <CrmCommunicationsPage /> },
+          { path: 'campaigns', element: <CrmCampaignsPage /> },
+          { path: 'support', element: <CrmSupportPage /> },
+          { path: 'documents', element: <CrmDocumentsPage /> },
+          { path: 'segments', element: <CrmSegmentsPage /> },
+          { path: 'automation', element: <CrmAutomationPage /> },
+          { path: 'approvals', element: <CrmApprovalsPage /> },
+          { path: 'analytics', element: <CrmAnalyticsPage /> },
+          { path: 'admin', element: <CrmAdminPage /> },
+          { path: 'ai-assistant', element: <CrmAiAssistantPage /> },
           { path: 'quotations', element: <CrmQuotationsPage /> },
           { path: 'reports', element: <CrmReportsPage /> },
           { path: 'settings', element: <CrmSettingsPage /> },
@@ -185,6 +241,12 @@ const router = createHashRouter([
           { path: 'expenses', element: <ExpensesPage /> },
           { path: 'customer-ledger', element: <CustomerLedgerPage /> },
           { path: 'supplier-ledger', element: <SupplierLedgerPage /> },
+          { path: 'accounting', element: <FinanceAccountingPage /> },
+          { path: 'payables', element: <FinancePayablesPage /> },
+          { path: 'banking', element: <FinanceBankingPage /> },
+          { path: 'compliance', element: <FinanceCompliancePage /> },
+          { path: 'planning-assets', element: <FinancePlanningAssetsPage /> },
+          { path: 'advanced-admin', element: <FinanceAdvancedAdminPage /> },
           { path: 'reports', element: <FinanceReportsPage /> },
           { path: 'settings', element: <FinanceSettingsPage /> },
         ],
@@ -195,16 +257,22 @@ const router = createHashRouter([
         children: [
           { index: true, element: <Navigate to="/inventory/dashboard" replace /> },
           { path: 'dashboard', element: <InventoryDashboardPage /> },
+          { path: 'catalog', element: <InventoryCatalogPage /> },
+          { path: 'tracking', element: <InventoryTrackingPage /> },
           { path: 'products', element: <ProductsPage /> },
           { path: 'products/new', element: <ProductFormPage /> },
           { path: 'products/:id/edit', element: <ProductFormPage /> },
           { path: 'stock', element: <StockPage /> },
           { path: 'purchase', element: <PurchasePage /> },
+          { path: 'purchase-operations', element: <PurchaseOperationsPage /> },
           { path: 'purchase/new', element: <PurchaseOrderFormPage /> },
           { path: 'suppliers', element: <SuppliersPage /> },
           { path: 'warehouses', element: <WarehousesPage /> },
+          { path: 'warehouse-operations', element: <WarehouseOperationsPage /> },
+          { path: 'fulfillment', element: <OrderFulfillmentPage /> },
           { path: 'transfers', element: <TransfersPage /> },
           { path: 'reports', element: <InventoryReportsPage /> },
+          { path: 'insights', element: <InventoryInsightsPage /> },
           { path: 'settings', element: <InventorySettingsPage /> },
         ],
       },
@@ -231,11 +299,17 @@ const router = createHashRouter([
           { index: true, element: <Navigate to="/hr/dashboard" replace /> },
           { path: 'dashboard', element: <HrDashboardPage /> },
           { path: 'employees', element: <EmployeesPage /> },
+          { path: 'recruitment', element: <RecruitmentPage /> },
+          { path: 'onboarding', element: <OnboardingPage /> },
           { path: 'attendance', element: <AttendancePage /> },
+          { path: 'shifts', element: <ShiftRosterPage /> },
           { path: 'leave', element: <LeavePage /> },
           { path: 'payroll', element: <PayrollPage /> },
+          { path: 'performance', element: <PerformancePage /> },
+          { path: 'self-service', element: <SelfServicePage /> },
           { path: 'departments', element: <DepartmentsPage /> },
           { path: 'documents', element: <HrDocumentsPage /> },
+          { path: 'assets', element: <AssetsPage /> },
           { path: 'reports', element: <HrReportsPage /> },
           { path: 'settings', element: <HrSettingsPage /> },
         ],

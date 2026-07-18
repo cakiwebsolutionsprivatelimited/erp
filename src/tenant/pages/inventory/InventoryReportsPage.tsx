@@ -1,5 +1,6 @@
 import React from 'react';
-import { Download } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Download, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DataTable, PageHeader, formatINR } from '@/tenant/components/TenantUI';
 import { InventoryStatusBadge } from '@/tenant/inventory/components/InventoryStatusBadge';
@@ -12,6 +13,7 @@ import {
 import { useInventoryData } from '@/tenant/inventory/state/InventoryDataProvider';
 
 const InventoryReportsPage: React.FC = () => {
+  const navigate = useNavigate();
   const inventory = useInventoryData();
   const fastMovingProducts = getFastMovingProducts(inventory.products);
   const deadStockProducts = getDeadStockProducts(inventory.products);
@@ -21,14 +23,19 @@ const InventoryReportsPage: React.FC = () => {
       <PageHeader
         title="Inventory Reports"
         description="Stock ledger, fast moving products, dead stock analysis, purchase report, and supplier purchase report."
-        action={<Button variant="outline"><Download className="h-3.5 w-3.5" />Export Reports</Button>}
+        action={(
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" onClick={() => navigate('/inventory/insights')}><Sparkles className="h-3.5 w-3.5" />Advanced insights</Button>
+            <Button variant="outline"><Download className="h-3.5 w-3.5" />Export Reports</Button>
+          </div>
+        )}
       />
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <ReportCard title="Stock ledger" value={`${inventory.stockLedger.length} entries`} />
         <ReportCard title="Fast moving" value={`${fastMovingProducts.length} products`} />
         <ReportCard title="Dead stock" value={`${deadStockProducts.length} products`} />
-        <ReportCard title="Product-wise profit" value="Placeholder" />
+        <ReportCard title="Advanced reports" value={`${inventory.advancedReports.length} previews`} />
       </section>
 
       <section className="mt-5 grid gap-5 xl:grid-cols-2">

@@ -1,7 +1,20 @@
 import React, { createContext, useContext, useMemo, useState } from 'react';
 import {
   demoApps,
+  demoCrmAiInsights,
+  demoCrmApprovals,
+  demoCrmAuditLogs,
+  demoCrmCampaigns,
   demoCompany,
+  demoCrmCustomFields,
+  demoCrmCommunications,
+  demoCrmCompanies,
+  demoCrmContacts,
+  demoCrmDocuments,
+  demoCrmIntegrations,
+  demoCrmSegments,
+  demoCrmSupportTickets,
+  demoCrmWorkflows,
   demoCustomers,
   demoFollowUps,
   demoLeads,
@@ -13,7 +26,7 @@ import {
   demoSubscription,
   demoUsers,
 } from '@/tenant/data/demoData';
-import type { AppStatus, CompanyProfile, Customer, FollowUp, Lead, LeadStage, SalesOrder, SalesQuotation, SalesQuotationStatus, SalesSubscription, Subscription, TenantApp, TenantUser } from '@/tenant/types';
+import type { AppStatus, CompanyProfile, CrmAiInsight, CrmApprovalRequest, CrmAuditLog, CrmCampaign, CrmCommunication, CrmCompany, CrmContact, CrmCustomFieldDefinition, CrmDocument, CrmIntegration, CrmSegment, CrmSupportTicket, CrmWorkflow, Customer, FollowUp, Lead, LeadStage, SalesOrder, SalesQuotation, SalesQuotationStatus, SalesSubscription, Subscription, TenantApp, TenantUser } from '@/tenant/types';
 
 interface LeadInput {
   name: string;
@@ -33,6 +46,18 @@ interface LeadInput {
   nextFollowUpAt?: string;
   priority?: 'Low' | 'Medium' | 'High';
   tags?: string[];
+  captureMethod?: string;
+  sourceDetail?: string;
+  campaign?: string;
+  score?: number;
+  rating?: 'Cold' | 'Warm' | 'Hot';
+  duplicateRisk?: 'Low' | 'Medium' | 'High';
+  routingReason?: string;
+  qualificationStatus?: 'Unqualified' | 'Marketing Qualified' | 'Sales Qualified' | 'Proposal Ready' | 'Won' | 'Lost';
+  budget?: string;
+  ownerTeam?: string;
+  territory?: string;
+  customFields?: Record<string, string>;
   initialNote?: string;
 }
 
@@ -44,6 +69,19 @@ interface TenantDataState {
   leads: Lead[];
   followUps: FollowUp[];
   customers: Customer[];
+  crmCompanies: CrmCompany[];
+  crmContacts: CrmContact[];
+  crmCommunications: CrmCommunication[];
+  crmCampaigns: CrmCampaign[];
+  crmSupportTickets: CrmSupportTicket[];
+  crmDocuments: CrmDocument[];
+  crmSegments: CrmSegment[];
+  crmWorkflows: CrmWorkflow[];
+  crmApprovals: CrmApprovalRequest[];
+  crmCustomFields: CrmCustomFieldDefinition[];
+  crmAuditLogs: CrmAuditLog[];
+  crmIntegrations: CrmIntegration[];
+  crmAiInsights: CrmAiInsight[];
   quotations: typeof demoQuotations;
   salesProducts: typeof demoSalesProducts;
   salesQuotations: SalesQuotation[];
@@ -76,7 +114,7 @@ interface TenantDataState {
 const STORAGE_KEY = 'tenant-demo-state-v1';
 const roles = ['Owner', 'Admin', 'Sales Manager', 'Sales Executive', 'Accountant', 'Inventory Manager', 'HR Manager', 'Support Staff'];
 
-type StoredState = Pick<TenantDataState, 'company' | 'apps' | 'users' | 'subscription' | 'leads' | 'followUps' | 'customers' | 'quotations' | 'salesProducts' | 'salesQuotations' | 'salesOrders' | 'salesSubscriptions' | 'recentAppSlugs'>;
+type StoredState = Pick<TenantDataState, 'company' | 'apps' | 'users' | 'subscription' | 'leads' | 'followUps' | 'customers' | 'crmCompanies' | 'crmContacts' | 'crmCommunications' | 'crmCampaigns' | 'crmSupportTickets' | 'crmDocuments' | 'crmSegments' | 'crmWorkflows' | 'crmApprovals' | 'crmCustomFields' | 'crmAuditLogs' | 'crmIntegrations' | 'crmAiInsights' | 'quotations' | 'salesProducts' | 'salesQuotations' | 'salesOrders' | 'salesSubscriptions' | 'recentAppSlugs'>;
 
 const initialState: StoredState = {
   company: demoCompany,
@@ -86,6 +124,19 @@ const initialState: StoredState = {
   leads: demoLeads,
   followUps: demoFollowUps,
   customers: demoCustomers,
+  crmCompanies: demoCrmCompanies,
+  crmContacts: demoCrmContacts,
+  crmCommunications: demoCrmCommunications,
+  crmCampaigns: demoCrmCampaigns,
+  crmSupportTickets: demoCrmSupportTickets,
+  crmDocuments: demoCrmDocuments,
+  crmSegments: demoCrmSegments,
+  crmWorkflows: demoCrmWorkflows,
+  crmApprovals: demoCrmApprovals,
+  crmCustomFields: demoCrmCustomFields,
+  crmAuditLogs: demoCrmAuditLogs,
+  crmIntegrations: demoCrmIntegrations,
+  crmAiInsights: demoCrmAiInsights,
   quotations: demoQuotations,
   salesProducts: demoSalesProducts,
   salesQuotations: demoSalesQuotations,
@@ -97,10 +148,18 @@ const initialState: StoredState = {
 const mergeCurrentAppDefinitions = (apps: TenantApp[]) =>
   demoApps.map((currentApp) => {
     const storedApp = apps.find((app) => app.slug === currentApp.slug);
+    const hasCompletedTenantRoute = (currentApp.category === 'HR' && currentApp.route?.startsWith('/hr/')) ||
+      (currentApp.category === 'Inventory' && currentApp.route?.startsWith('/inventory/')) ||
+      (currentApp.category === 'Finance' && currentApp.route?.startsWith('/finance/'));
+    const status = hasCompletedTenantRoute
+      ? storedApp?.status === 'installed' || currentApp.status === 'installed'
+        ? 'installed'
+        : currentApp.status
+      : storedApp?.status ?? currentApp.status;
     return storedApp
       ? {
           ...currentApp,
-          status: storedApp.status,
+          status,
           metric: storedApp.metric ?? currentApp.metric,
         }
       : currentApp;
@@ -240,28 +299,115 @@ export const TenantDataProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     },
     convertLeadToCustomer: (id) => {
       const lead = state.leads.find((item) => item.id === id);
-      if (!lead || state.customers.some((customer) => customer.email === lead.email)) return;
+      if (!lead) return;
+      const today = new Date().toISOString().slice(0, 10);
+      const existingCustomer = state.customers.find((customer) => customer.email === lead.email || customer.company === lead.company);
+      const existingCompany = state.crmCompanies.find((company) => company.name === lead.company || company.email === lead.email);
+      const companyId = existingCompany?.id || `CO-${Date.now()}`;
+      const customerId = existingCustomer?.id || `C-${Date.now()}`;
+      const hasContact = state.crmContacts.some((contact) => contact.email === lead.email || contact.phone === lead.phone);
+      const nextCompanies = existingCompany
+        ? state.crmCompanies.map((company) =>
+            company.id === existingCompany.id
+              ? {
+                  ...company,
+                  lifecycleStatus: 'Customer' as const,
+                  customerId,
+                  lastActivityAt: today,
+                  totalPipelineValue: Math.max(company.totalPipelineValue, lead.expectedValue),
+                  openOpportunities: Math.max(company.openOpportunities, 1),
+                }
+              : company
+          )
+        : [
+            {
+              id: companyId,
+              name: lead.company,
+              legalName: `${lead.company} Pvt. Ltd.`,
+              displayName: lead.company,
+              industry: lead.industry,
+              employeeSize: '11-50',
+              annualRevenueBand: lead.budget || 'Rs 25L - Rs 1Cr',
+              phone: lead.phone,
+              email: lead.email,
+              website: `https://${lead.company.toLowerCase().replace(/\s+/g, '')}.example`,
+              address: `${lead.city || 'Bhubaneswar'} business address`,
+              city: lead.city || 'Bhubaneswar',
+              state: lead.state || 'Odisha',
+              owner: lead.assignedTo,
+              lifecycleStatus: 'Customer' as const,
+              healthScore: 72,
+              accountHealth: 'Healthy' as const,
+              tags: [lead.industry, 'Converted'],
+              lastActivityAt: today,
+              openOpportunities: 1,
+              totalPipelineValue: lead.expectedValue,
+              customerId,
+            },
+            ...state.crmCompanies,
+          ];
+      const nextContacts = hasContact
+        ? state.crmContacts
+        : [
+            {
+              id: `CT-${Date.now()}`,
+              companyId,
+              customerId,
+              name: lead.name,
+              title: lead.customFields?.['Decision role'] || 'Primary contact',
+              department: 'Management',
+              phone: lead.phone,
+              email: lead.email,
+              decisionRole: 'Decision Maker' as const,
+              preferredChannel: lead.source === 'WhatsApp' ? 'WhatsApp' as const : 'Phone' as const,
+              emailConsent: true,
+              whatsappConsent: lead.source === 'WhatsApp',
+              smsConsent: false,
+              owner: lead.assignedTo,
+              lifecycleStatus: 'Active' as const,
+              lastActivityAt: today,
+              tags: [lead.industry, 'Converted'],
+              isPrimary: true,
+            },
+            ...state.crmContacts,
+          ];
 
       persist({
         ...state,
         leads: state.leads.map((item) => (item.id === id ? { ...item, stage: 'Won', status: 'won' } : item)),
-        customers: [
-          {
-            id: `C-${Date.now()}`,
-            name: lead.name,
-            company: lead.company,
-            phone: lead.phone,
-            email: lead.email,
-            city: lead.city,
-            industry: lead.industry,
-            value: lead.expectedValue,
-            since: new Date().toISOString().slice(0, 10),
-            lastContactAt: new Date().toISOString().slice(0, 10),
-            owner: lead.assignedTo,
-            status: 'active',
-          },
-          ...state.customers,
-        ],
+        crmCompanies: nextCompanies,
+        crmContacts: nextContacts,
+        customers: existingCustomer
+          ? state.customers.map((customer) =>
+              customer.id === existingCustomer.id
+                ? { ...customer, value: Math.max(customer.value, lead.expectedValue), lastContactAt: today, status: 'active' }
+                : customer
+            )
+          : [
+              {
+                id: customerId,
+                name: lead.name,
+                company: lead.company,
+                phone: lead.phone,
+                email: lead.email,
+                city: lead.city,
+                industry: lead.industry,
+                value: lead.expectedValue,
+                since: today,
+                lastContactAt: today,
+                owner: lead.assignedTo,
+                status: 'active',
+                healthScore: 72,
+                openOpportunities: 1,
+                renewalDate: '2026-09-15',
+                lifecycleStage: 'New Customer',
+                accountHealth: 'Healthy',
+                ticketsOpen: 0,
+                documentsCount: 1,
+                communicationCount: 1,
+              },
+              ...state.customers,
+            ],
       });
     },
     createSalesQuotation: (quotation) => {

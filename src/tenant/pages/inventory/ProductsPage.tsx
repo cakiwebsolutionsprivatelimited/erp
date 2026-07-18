@@ -30,8 +30,14 @@ const ProductsPage: React.FC = () => {
     <div>
       <PageHeader
         title="Products"
-        description="Manage catalogue, SKU, barcode, GST, pricing, opening stock, reorder level, and status."
-        action={<Button onClick={() => navigate('/inventory/products/new')}><FilePlus2 className="h-4 w-4" />Create Product</Button>}
+        description="Manage catalogue, item groups, tracking, SKU, barcode, GST, pricing, opening stock, reorder level, and status."
+        action={(
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" onClick={() => navigate('/inventory/catalog')}>Catalog Setup</Button>
+            <Button variant="outline" onClick={() => navigate('/inventory/tracking')}>Tracking</Button>
+            <Button onClick={() => navigate('/inventory/products/new')}><FilePlus2 className="h-4 w-4" />Create Product</Button>
+          </div>
+        )}
       />
 
       <section className="mb-4 rounded-md border border-slate-200 bg-white p-4 shadow-sm">

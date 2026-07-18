@@ -125,10 +125,12 @@ export const InventoryDataProvider: React.FC<{ children: React.ReactNode }> = ({
     createProduct: (productDraft) => {
       const id = `IP-${Date.now()}`;
       const openingStock = Number(productDraft.openingStock) || 0;
+      const itemGroup = state.itemGroups.find((group) => group.id === productDraft.itemGroupId);
       const product: InventoryProduct = {
         ...productDraft,
         id,
         sku: productDraft.sku || createProductNumber(state.products.length),
+        itemGroupName: itemGroup?.name || productDraft.itemGroupName,
         openingStock,
         currentStock: typeof productDraft.currentStock === 'number' ? productDraft.currentStock : openingStock,
       };
@@ -139,6 +141,7 @@ export const InventoryDataProvider: React.FC<{ children: React.ReactNode }> = ({
       return id;
     },
     updateProduct: (id, productDraft) => {
+      const itemGroup = state.itemGroups.find((group) => group.id === productDraft.itemGroupId);
       persist({
         ...state,
         products: state.products.map((product) =>
@@ -147,6 +150,7 @@ export const InventoryDataProvider: React.FC<{ children: React.ReactNode }> = ({
                 ...product,
                 ...productDraft,
                 id,
+                itemGroupName: itemGroup?.name || productDraft.itemGroupName,
                 currentStock: typeof productDraft.currentStock === 'number' ? productDraft.currentStock : product.currentStock,
               }
             : product

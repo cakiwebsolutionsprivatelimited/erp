@@ -7,7 +7,7 @@ import { getStockStatus } from '@/tenant/inventory/services/inventoryDemoService
 import type { InventoryProduct } from '@/tenant/inventory/types';
 
 export const ProductTable: React.FC<{ products: InventoryProduct[]; onEdit: (id: string) => void }> = ({ products, onEdit }) => (
-  <DataTable headers={['Product', 'SKU', 'Barcode', 'Category', 'Unit', 'GST', 'Sale Price', 'Purchase', 'Stock', 'Status', 'Actions']}>
+  <DataTable headers={['Product', 'SKU', 'Barcode', 'Group', 'Tracking', 'Category', 'Unit', 'GST', 'Sale Price', 'Purchase', 'Stock', 'Status', 'Actions']}>
     {products.map((product) => (
       <tr key={product.id}>
         <td className="px-4 py-3">
@@ -23,6 +23,8 @@ export const ProductTable: React.FC<{ products: InventoryProduct[]; onEdit: (id:
         </td>
         <td className="px-4 py-3 text-slate-600">{product.sku}</td>
         <td className="px-4 py-3 text-slate-600">{product.barcode}</td>
+        <td className="px-4 py-3 text-slate-600">{product.itemGroupName || '-'}</td>
+        <td className="px-4 py-3 text-slate-600">{product.trackingType || 'None'}</td>
         <td className="px-4 py-3 text-slate-600">{product.category}</td>
         <td className="px-4 py-3 text-slate-600">{product.unit}</td>
         <td className="px-4 py-3 text-slate-600">{product.gstRate}%</td>

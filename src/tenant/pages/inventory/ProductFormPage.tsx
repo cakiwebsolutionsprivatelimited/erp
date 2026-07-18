@@ -20,6 +20,7 @@ const ProductFormPage: React.FC = () => {
       />
       <ProductForm
         initialProduct={product}
+        itemGroups={inventory.itemGroups}
         onCancel={() => navigate('/inventory/products')}
         onSubmit={(draft) => {
           if (product) {

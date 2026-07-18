@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AlertTriangle, Boxes, ClipboardList, FilePlus2, PackageCheck, Repeat, ShoppingBag } from 'lucide-react';
+import { AlertTriangle, Boxes, ClipboardList, FilePlus2, MapPinned, PackageCheck, ReceiptText, Repeat, SearchCheck, ShoppingBag, Sparkles, Tags } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DataTable, PageHeader, formatINR } from '@/tenant/components/TenantUI';
 import { InventoryStatusBadge } from '@/tenant/inventory/components/InventoryStatusBadge';
@@ -26,8 +26,13 @@ const InventoryDashboardPage: React.FC = () => {
     <div>
       <PageHeader
         title="Inventory Dashboard"
-        description="Products, stock health, purchase orders, suppliers, warehouses, and transfers."
-        action={<Button onClick={() => navigate('/inventory/products/new')}><FilePlus2 className="h-4 w-4" />Create product</Button>}
+        description="Products, catalog setup, tracking, stock health, purchase orders, suppliers, warehouses, and transfers."
+        action={(
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" onClick={() => navigate('/inventory/catalog')}><Tags className="h-4 w-4" />Catalog</Button>
+            <Button onClick={() => navigate('/inventory/products/new')}><FilePlus2 className="h-4 w-4" />Create product</Button>
+          </div>
+        )}
       />
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-7">
@@ -37,7 +42,7 @@ const InventoryDashboardPage: React.FC = () => {
         <MetricCard label="Stock value" value={formatINR(metrics.stockValue)} hint="Purchase value" />
         <MetricCard label="Purchase this month" value={formatINR(metrics.purchaseThisMonth)} hint="June POs" icon={<ShoppingBag className="h-4 w-4" />} />
         <MetricCard label="Pending POs" value={String(metrics.pendingPurchaseOrders)} hint="Draft, sent, partial" icon={<ClipboardList className="h-4 w-4" />} />
-        <MetricCard label="Expiring batches" value={String(metrics.expiringBatches)} hint="Placeholder watchlist" tone="warning" />
+        <MetricCard label="Expiring batches" value={String(metrics.expiringBatches)} hint="Batch/expiry watchlist" tone="warning" />
       </section>
 
       <section className="mt-5 grid gap-5 xl:grid-cols-[1.2fr_0.8fr]">
@@ -120,7 +125,13 @@ const InventoryDashboardPage: React.FC = () => {
 
       <section className="mt-5 rounded-md border border-slate-200 bg-white p-4 shadow-sm">
         <h2 className="font-semibold text-slate-950">Quick actions</h2>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-10">
+          <QuickAction label="Catalog setup" icon={<Tags className="h-4 w-4" />} onClick={() => navigate('/inventory/catalog')} />
+          <QuickAction label="Tracking lookup" icon={<SearchCheck className="h-4 w-4" />} onClick={() => navigate('/inventory/tracking')} />
+          <QuickAction label="Warehouse ops" icon={<MapPinned className="h-4 w-4" />} onClick={() => navigate('/inventory/warehouse-operations')} />
+          <QuickAction label="Fulfillment" icon={<ClipboardList className="h-4 w-4" />} onClick={() => navigate('/inventory/fulfillment')} />
+          <QuickAction label="Purchase ops" icon={<ReceiptText className="h-4 w-4" />} onClick={() => navigate('/inventory/purchase-operations')} />
+          <QuickAction label="Insights" icon={<Sparkles className="h-4 w-4" />} onClick={() => navigate('/inventory/insights')} />
           <QuickAction label="Stock adjustment" icon={<Boxes className="h-4 w-4" />} onClick={() => navigate('/inventory/stock')} />
           <QuickAction label="Create purchase order" icon={<ShoppingBag className="h-4 w-4" />} onClick={() => navigate('/inventory/purchase/new')} />
           <QuickAction label="Add supplier" icon={<ClipboardList className="h-4 w-4" />} onClick={() => navigate('/inventory/suppliers')} />

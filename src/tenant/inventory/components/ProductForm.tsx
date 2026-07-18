@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Save } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import type { InventoryProduct, ProductDraft, ProductStatus } from '@/tenant/inventory/types';
+import type { InventoryItemGroup, InventoryProduct, InventoryTrackingType, ProductDraft, ProductStatus } from '@/tenant/inventory/types';
 
 const categories = ['Hardware', 'Software', 'Inventory Supplies', 'Bundle', 'Warehouse', 'Networking'];
 const units = ['Piece', 'Pack', 'Roll', 'Set', 'Kit', 'Year', 'Box'];
 const gstRates = [0, 5, 12, 18, 28];
+const trackingTypes: InventoryTrackingType[] = ['None', 'Serial', 'Batch', 'Serial + Batch'];
 
 const createBlankProduct = (): ProductDraft => ({
   name: '',
@@ -24,14 +25,20 @@ const createBlankProduct = (): ProductDraft => ({
   status: 'Active',
   imageLabel: 'Item',
   monthlySales: 0,
+  trackingType: 'None',
+  serialNumbers: [],
+  batchNumber: '',
+  expiryDate: '',
+  warehouseLocation: '',
 });
 
 export const ProductForm: React.FC<{
   initialProduct?: InventoryProduct;
+  itemGroups?: InventoryItemGroup[];
   onSubmit: (product: ProductDraft) => void;
   onCancel: () => void;
-}> = ({ initialProduct, onSubmit, onCancel }) => {
-  const [draft, setDraft] = useState<ProductDraft>(() => initialProduct ? { ...initialProduct, currentStock: initialProduct.currentStock } : createBlankProduct());
+}> = ({ initialProduct, itemGroups = [], onSubmit, onCancel }) => {
+  const [draft, setDraft] = useState<ProductDraft>(() => initialProduct ? { trackingType: 'None', serialNumbers: [], ...initialProduct, currentStock: initialProduct.currentStock } : createBlankProduct());
   const update = <K extends keyof ProductDraft>(key: K, value: ProductDraft[K]) => setDraft((current) => ({ ...current, [key]: value }));
 
   return (
@@ -49,6 +56,11 @@ export const ProductForm: React.FC<{
           currentStock: initialProduct?.currentStock,
           reorderLevel: Number(draft.reorderLevel) || 0,
           gstRate: Number(draft.gstRate) || 0,
+          trackingType: draft.trackingType || 'None',
+          serialNumbers: draft.serialNumbers || [],
+          batchNumber: draft.batchNumber || '',
+          expiryDate: draft.expiryDate || '',
+          warehouseLocation: draft.warehouseLocation || '',
         });
       }}
     >
@@ -58,6 +70,16 @@ export const ProductForm: React.FC<{
         <Field label="Barcode" value={draft.barcode} onChange={(value) => update('barcode', value)} />
         <Select label="Category" value={draft.category} options={categories} onChange={(value) => update('category', value)} />
         <Field label="Subcategory" value={draft.subcategory} onChange={(value) => update('subcategory', value)} />
+        <Select
+          label="Item group"
+          value={draft.itemGroupName || 'Unassigned'}
+          options={['Unassigned', ...itemGroups.map((group) => group.name)]}
+          onChange={(value) => {
+            const group = itemGroups.find((item) => item.name === value);
+            update('itemGroupId', group?.id);
+            update('itemGroupName', value === 'Unassigned' ? undefined : value);
+          }}
+        />
         <Select label="Unit" value={draft.unit} options={units} onChange={(value) => update('unit', value)} />
         <Field label="HSN code" value={draft.hsnCode} onChange={(value) => update('hsnCode', value)} />
         <Select label="GST rate" value={String(draft.gstRate)} options={gstRates.map(String)} suffix="%" onChange={(value) => update('gstRate', Number(value))} />
@@ -68,7 +90,20 @@ export const ProductForm: React.FC<{
         <NumberField label="Reorder level" value={draft.reorderLevel} onChange={(value) => update('reorderLevel', value)} />
         <NumberField label="Monthly sales" value={draft.monthlySales} onChange={(value) => update('monthlySales', value)} />
         <Field label="Image placeholder" value={draft.imageLabel} onChange={(value) => update('imageLabel', value)} />
+        <Select label="Tracking type" value={draft.trackingType || 'None'} options={trackingTypes} onChange={(value) => update('trackingType', value as InventoryTrackingType)} />
+        <Field label="Batch number" value={draft.batchNumber || ''} onChange={(value) => update('batchNumber', value)} />
+        <Field label="Expiry date" type="date" value={draft.expiryDate || ''} onChange={(value) => update('expiryDate', value)} />
+        <Field label="Warehouse/bin location" value={draft.warehouseLocation || ''} onChange={(value) => update('warehouseLocation', value)} />
       </div>
+      <label className="grid gap-1">
+        <span className="text-xs font-medium text-slate-500">Serial numbers</span>
+        <textarea
+          value={(draft.serialNumbers || []).join(', ')}
+          onChange={(event) => update('serialNumbers', event.target.value.split(',').map((item) => item.trim()).filter(Boolean))}
+          placeholder="Comma-separated serials for serialized stock"
+          className="min-h-20 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100"
+        />
+      </label>
       <label className="grid gap-1">
         <span className="text-xs font-medium text-slate-500">Description</span>
         <textarea
@@ -85,16 +120,18 @@ export const ProductForm: React.FC<{
   );
 };
 
-const Field: React.FC<{ label: string; value: string; onChange: (value: string) => void; placeholder?: string; required?: boolean }> = ({
+const Field: React.FC<{ label: string; value: string; onChange: (value: string) => void; placeholder?: string; required?: boolean; type?: string }> = ({
   label,
   value,
   onChange,
   placeholder,
   required,
+  type = 'text',
 }) => (
   <label className="grid gap-1">
     <span className="text-xs font-medium text-slate-500">{label}</span>
     <input
+      type={type}
       value={value}
       onChange={(event) => onChange(event.target.value)}
       placeholder={placeholder}
