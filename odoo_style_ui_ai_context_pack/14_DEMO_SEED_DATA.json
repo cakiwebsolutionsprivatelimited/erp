@@ -1,0 +1,213 @@
+{
+  "company": {
+    "name": "VumTech Solutions Pvt. Ltd.",
+    "businessType": "IT Services and Business Automation",
+    "city": "Bhubaneswar",
+    "state": "Odisha",
+    "country": "India",
+    "currency": "INR",
+    "timezone": "Asia/Kolkata",
+    "gstNumber": "21ABCDE1234F1Z5"
+  },
+  "apps": [
+    {
+      "slug": "crm",
+      "name": "CRM",
+      "category": "Sales",
+      "status": "installed",
+      "description": "Manage leads, follow-ups, customers, and pipeline."
+    },
+    {
+      "slug": "sales",
+      "name": "Sales",
+      "category": "Sales",
+      "status": "installed",
+      "description": "Create quotations, proposals, and sales orders."
+    },
+    {
+      "slug": "billing",
+      "name": "Billing",
+      "category": "Finance",
+      "status": "available",
+      "description": "Create GST invoices, receipts, and payment links."
+    },
+    {
+      "slug": "inventory",
+      "name": "Inventory",
+      "category": "Inventory",
+      "status": "upgrade_required",
+      "description": "Track products, stock, warehouses, and transfers."
+    },
+    {
+      "slug": "accounts",
+      "name": "Accounts",
+      "category": "Finance",
+      "status": "locked",
+      "description": "Manage ledgers, expenses, and financial reports."
+    },
+    {
+      "slug": "hrms",
+      "name": "HRMS",
+      "category": "HRMS",
+      "status": "coming_soon",
+      "description": "Manage employees, attendance, leave, and documents."
+    },
+    {
+      "slug": "payroll",
+      "name": "Payroll",
+      "category": "HRMS",
+      "status": "coming_soon",
+      "description": "Process salaries, payslips, PF/ESI, and reports."
+    },
+    {
+      "slug": "projects",
+      "name": "Projects",
+      "category": "Services",
+      "status": "available",
+      "description": "Manage projects, milestones, and tasks."
+    },
+    {
+      "slug": "helpdesk",
+      "name": "Helpdesk",
+      "category": "Services",
+      "status": "available",
+      "description": "Manage tickets, complaints, and support requests."
+    },
+    {
+      "slug": "field-service",
+      "name": "Field Service",
+      "category": "Services",
+      "status": "coming_soon",
+      "description": "Schedule visits and assign technicians."
+    },
+    {
+      "slug": "marketing",
+      "name": "Marketing",
+      "category": "Marketing",
+      "status": "coming_soon",
+      "description": "Run WhatsApp, SMS, and email campaigns."
+    },
+    {
+      "slug": "website",
+      "name": "Website",
+      "category": "Website",
+      "status": "coming_soon",
+      "description": "Build pages and capture enquiries."
+    },
+    {
+      "slug": "reports",
+      "name": "Reports",
+      "category": "Productivity",
+      "status": "installed",
+      "description": "View business analytics across apps."
+    },
+    {
+      "slug": "studio",
+      "name": "Studio",
+      "category": "Customization",
+      "status": "locked",
+      "description": "Customize fields, workflows, and reports."
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Bibhudutta",
+      "role": "Owner",
+      "email": "owner@example.com",
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "name": "Anita Das",
+      "role": "Sales Manager",
+      "email": "anita@example.com",
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "name": "Rakesh Sahoo",
+      "role": "Sales Executive",
+      "email": "rakesh@example.com",
+      "status": "active"
+    },
+    {
+      "id": 4,
+      "name": "Priya Mishra",
+      "role": "Admin",
+      "email": "priya@example.com",
+      "status": "active"
+    }
+  ],
+  "leads": [
+    {
+      "id": 101,
+      "name": "Apollo Pharmacy Franchise",
+      "company": "Apollo Retail",
+      "phone": "+91 9876543210",
+      "email": "apollo@example.com",
+      "source": "Website",
+      "stage": "New",
+      "assignedTo": "Anita Das",
+      "expectedValue": 85000,
+      "probability": 20
+    },
+    {
+      "id": 102,
+      "name": "Fitness Hub Gym",
+      "company": "Fitness Hub",
+      "phone": "+91 9876543211",
+      "email": "fitness@example.com",
+      "source": "Referral",
+      "stage": "Contacted",
+      "assignedTo": "Rakesh Sahoo",
+      "expectedValue": 45000,
+      "probability": 35
+    },
+    {
+      "id": 103,
+      "name": "Shree Distributor",
+      "company": "Shree Traders",
+      "phone": "+91 9876543212",
+      "email": "shree@example.com",
+      "source": "WhatsApp",
+      "stage": "Interested",
+      "assignedTo": "Anita Das",
+      "expectedValue": 125000,
+      "probability": 50
+    },
+    {
+      "id": 104,
+      "name": "Mayurbhanj Clinic",
+      "company": "Care Clinic",
+      "phone": "+91 9876543213",
+      "email": "clinic@example.com",
+      "source": "Google Ads",
+      "stage": "Quotation Sent",
+      "assignedTo": "Rakesh Sahoo",
+      "expectedValue": 65000,
+      "probability": 60
+    },
+    {
+      "id": 105,
+      "name": "Real Estate CRM Need",
+      "company": "Dream Homes",
+      "phone": "+91 9876543214",
+      "email": "dream@example.com",
+      "source": "Telecalling",
+      "stage": "Negotiation",
+      "assignedTo": "Anita Das",
+      "expectedValue": 95000,
+      "probability": 75
+    }
+  ],
+  "subscription": {
+    "plan": "Business",
+    "usersLimit": 10,
+    "usersUsed": 4,
+    "appsInstalled": 3,
+    "storageUsedMb": 840,
+    "storageLimitMb": 5120,
+    "renewalDate": "2026-07-11"
+  }
+}

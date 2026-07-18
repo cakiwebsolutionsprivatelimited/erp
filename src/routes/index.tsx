@@ -1,72 +1,356 @@
-import { createHashRouter, RouterProvider, Navigate } from 'react-router-dom';
-import DashboardLayout from '@/layouts/DashboardLayout';
+import { createHashRouter, Navigate, RouterProvider, useParams } from 'react-router-dom';
 import AuthLayout from '@/layouts/AuthLayout';
 import ErrorLayout from '@/layouts/ErrorLayout';
 import ProtectedRoute from './ProtectedRoute';
-
-// Pages
 import Login from '@/pages/auth/Login';
-import Signup from '@/pages/auth/Signup';
 import ForgotPassword from '@/pages/auth/ForgotPassword';
-import ResetPassword from '@/pages/auth/ResetPassword';
-import Dashboard from '@/pages/dashboard/Dashboard';
-import Settings from '@/pages/settings/Settings';
-import Invoice from '@/pages/billing/Invoice';
-import Pricing from '@/pages/billing/Pricing';
 import NotFound from '@/pages/error/NotFound';
-import CRMLeadsPage from '@/pages/crm/LeadsPage';
-import ProfileFormPage from '@/pages/settings/ProfileForm';
-import ComponentShowcasePage from '@/pages/dev/ComponentShowcasePage';
-import HRMSPage from '@/pages/hrms/HRMSPage';
-import InventoryPage from '@/pages/inventory/InventoryPage';
-import AddEmployeePage from '@/pages/hrms/employees/add/AddEmployeePage';
-import EmployeeListPage from '@/pages/hrms/employees/list/EmployeeListPage';
+import AppLauncherPage from '@/tenant/pages/AppLauncherPage';
+import PlaceholderAppPage from '@/tenant/pages/PlaceholderAppPage';
+import { AppShell } from '@/tenant/components/TenantUI';
+import CrmDashboardPage from '@/tenant/pages/crm/CrmDashboardPage';
+import LeadsListPage from '@/tenant/pages/crm/LeadsListPage';
+import LeadFormPage from '@/tenant/pages/crm/LeadFormPage';
+import LeadDetailPage from '@/tenant/pages/crm/LeadDetailPage';
+import { CompaniesPage, CompanyDetailPage } from '@/tenant/pages/crm/CompaniesPage';
+import { ContactsPage, ContactDetailPage } from '@/tenant/pages/crm/ContactsPage';
+import PipelinePage from '@/tenant/pages/crm/PipelinePage';
+import FollowUpsPage from '@/tenant/pages/crm/FollowUpsPage';
+import CustomersPage from '@/tenant/pages/crm/CustomersPage';
+import CustomerDetailPage from '@/tenant/pages/crm/CustomerDetailPage';
+import { CrmQuotationsPage, CrmReportsPage } from '@/tenant/pages/crm/CrmPlaceholderPages';
+import CrmActivitiesPage from '@/tenant/pages/crm/CrmActivitiesPage';
+import { CrmCampaignsPage, CrmCommunicationsPage, CrmDocumentsPage, CrmSegmentsPage, CrmSupportPage } from '@/tenant/pages/crm/CrmPhase3Pages';
+import { CrmAdminPage, CrmAiAssistantPage, CrmAnalyticsPage, CrmApprovalsPage, CrmAutomationPage } from '@/tenant/pages/crm/CrmPhase4Pages';
+import CrmSettingsPage from '@/tenant/pages/crm/CrmSettingsPage';
+import {
+  SalesDashboardPage,
+  SalesOrdersPage,
+  SalesProductsPage,
+  SalesQuotationFormPage,
+  SalesQuotationPreviewPage,
+  SalesQuotationsPage,
+  SalesReportsPage,
+  SalesSettingsPage,
+  SalesSubscriptionsPage,
+} from '@/tenant/pages/sales/SalesPages';
+import FinanceDashboardPage from '@/tenant/pages/finance/FinanceDashboardPage';
+import InvoiceListPage from '@/tenant/pages/finance/InvoiceListPage';
+import InvoiceFormPage from '@/tenant/pages/finance/InvoiceFormPage';
+import InvoicePreviewPage from '@/tenant/pages/finance/InvoicePreviewPage';
+import PaymentsPage from '@/tenant/pages/finance/PaymentsPage';
+import ExpensesPage from '@/tenant/pages/finance/ExpensesPage';
+import { CustomerLedgerPage, SupplierLedgerPage } from '@/tenant/pages/finance/LedgerPages';
+import FinanceAccountingPage from '@/tenant/pages/finance/FinanceAccountingPage';
+import FinancePayablesPage from '@/tenant/pages/finance/FinancePayablesPage';
+import FinanceBankingPage from '@/tenant/pages/finance/FinanceBankingPage';
+import FinanceCompliancePage from '@/tenant/pages/finance/FinanceCompliancePage';
+import FinancePlanningAssetsPage from '@/tenant/pages/finance/FinancePlanningAssetsPage';
+import FinanceAdvancedAdminPage from '@/tenant/pages/finance/FinanceAdvancedAdminPage';
+import FinanceReportsPage from '@/tenant/pages/finance/FinanceReportsPage';
+import FinanceSettingsPage from '@/tenant/pages/finance/FinanceSettingsPage';
+import InventoryDashboardPage from '@/tenant/pages/inventory/InventoryDashboardPage';
+import InventoryCatalogPage from '@/tenant/pages/inventory/InventoryCatalogPage';
+import InventoryTrackingPage from '@/tenant/pages/inventory/InventoryTrackingPage';
+import ProductsPage from '@/tenant/pages/inventory/ProductsPage';
+import ProductFormPage from '@/tenant/pages/inventory/ProductFormPage';
+import StockPage from '@/tenant/pages/inventory/StockPage';
+import PurchasePage from '@/tenant/pages/inventory/PurchasePage';
+import PurchaseOperationsPage from '@/tenant/pages/inventory/PurchaseOperationsPage';
+import PurchaseOrderFormPage from '@/tenant/pages/inventory/PurchaseOrderFormPage';
+import SuppliersPage from '@/tenant/pages/inventory/SuppliersPage';
+import WarehousesPage from '@/tenant/pages/inventory/WarehousesPage';
+import WarehouseOperationsPage from '@/tenant/pages/inventory/WarehouseOperationsPage';
+import OrderFulfillmentPage from '@/tenant/pages/inventory/OrderFulfillmentPage';
+import TransfersPage from '@/tenant/pages/inventory/TransfersPage';
+import InventoryReportsPage from '@/tenant/pages/inventory/InventoryReportsPage';
+import InventoryInsightsPage from '@/tenant/pages/inventory/InventoryInsightsPage';
+import InventorySettingsPage from '@/tenant/pages/inventory/InventorySettingsPage';
+import ServicesDashboardPage from '@/tenant/pages/services/ServicesDashboardPage';
+import ProjectsPage from '@/tenant/pages/services/ProjectsPage';
+import TasksPage from '@/tenant/pages/services/TasksPage';
+import HelpdeskPage from '@/tenant/pages/services/HelpdeskPage';
+import FieldServicePage from '@/tenant/pages/services/FieldServicePage';
+import WorkOrdersPage from '@/tenant/pages/services/WorkOrdersPage';
+import ServiceCalendarPage from '@/tenant/pages/services/ServiceCalendarPage';
+import ServicesReportsPage from '@/tenant/pages/services/ServicesReportsPage';
+import ServicesSettingsPage from '@/tenant/pages/services/ServicesSettingsPage';
+import HrDashboardPage from '@/tenant/pages/hr/HrDashboardPage';
+import EmployeesPage from '@/tenant/pages/hr/EmployeesPage';
+import RecruitmentPage from '@/tenant/pages/hr/RecruitmentPage';
+import AttendancePage from '@/tenant/pages/hr/AttendancePage';
+import LeavePage from '@/tenant/pages/hr/LeavePage';
+import PayrollPage from '@/tenant/pages/hr/PayrollPage';
+import PerformancePage from '@/tenant/pages/hr/PerformancePage';
+import SelfServicePage from '@/tenant/pages/hr/SelfServicePage';
+import AssetsPage from '@/tenant/pages/hr/AssetsPage';
+import { DepartmentsPage, HrDocumentsPage, HrReportsPage, HrSettingsPage, OnboardingPage, ShiftRosterPage } from '@/tenant/pages/hr/HrUtilityPages';
+import WebsiteDashboardPage from '@/tenant/pages/website/WebsiteDashboardPage';
+import WebsitePagesPage from '@/tenant/pages/website/WebsitePagesPage';
+import LandingPagesPage from '@/tenant/pages/website/LandingPagesPage';
+import WebsiteFormsPage from '@/tenant/pages/website/WebsiteFormsPage';
+import WebsiteSubmissionsPage from '@/tenant/pages/website/WebsiteSubmissionsPage';
+import { SeoSettingsPage, WebsiteSettingsPage, WebsiteThemesPage } from '@/tenant/pages/website/WebsiteUtilityPages';
+import {
+  ActiveAppsSettingsPage,
+  CompanySettingsPage,
+  PlanUsageSettingsPage,
+  RolesSettingsPage,
+  UsersSettingsPage,
+} from '@/tenant/pages/settings/SettingsPages';
 
+const LegacyAppRedirect = () => {
+  const { appSlug } = useParams();
+  return <Navigate to={`/placeholder/${appSlug}`} replace />;
+};
+
+const PlaceholderRedirect = () => {
+  const { appSlug } = useParams();
+  const salesRoutes: Record<string, string> = {
+    sales: '/sales/dashboard',
+    quotations: '/sales/quotations',
+    subscriptions: '/sales/subscriptions',
+    billing: '/finance/invoices',
+    'gst-invoicing': '/finance/invoices/new',
+    accounts: '/finance/accounting',
+    expenses: '/finance/expenses',
+    products: '/inventory/products',
+    stock: '/inventory/stock',
+    purchase: '/inventory/purchase',
+    warehouse: '/inventory/warehouses',
+    projects: '/services/projects',
+    tasks: '/services/tasks',
+    helpdesk: '/services/helpdesk',
+    'field-service': '/services/field-service',
+    hr: '/hr/dashboard',
+    employees: '/hr/employees',
+    recruitment: '/hr/recruitment',
+    onboarding: '/hr/onboarding',
+    attendance: '/hr/attendance',
+    'hr-shifts': '/hr/shifts',
+    shifts: '/hr/shifts',
+    leave: '/hr/leave',
+    payroll: '/hr/payroll',
+    performance: '/hr/performance',
+    'self-service': '/hr/self-service',
+    'hr-departments': '/hr/departments',
+    'hr-documents': '/hr/documents',
+    assets: '/hr/assets',
+    'hr-reports': '/hr/reports',
+    'hr-settings': '/hr/settings',
+    'website-builder': '/website/pages',
+    'landing-pages': '/website/landing-pages',
+    forms: '/website/forms',
+    email: '/crm/communications',
+    whatsapp: '/crm/communications',
+    sms: '/crm/communications',
+    campaigns: '/crm/campaigns',
+    notes: '/crm/documents',
+    documents: '/crm/documents',
+    approvals: '/crm/approvals',
+    workflows: '/crm/automation',
+    'custom-fields': '/crm/admin',
+    'form-builder': '/crm/admin',
+  };
+
+  if (appSlug && salesRoutes[appSlug]) {
+    return <Navigate to={salesRoutes[appSlug]} replace />;
+  }
+
+  return <PlaceholderAppPage />;
+};
 
 const router = createHashRouter([
-  // Public Dev Routes (No Auth)
-  {
-    path: '/dev',
-    element: <DashboardLayout />,
-    children: [
-      { path: 'components', element: <ComponentShowcasePage /> },
-    ],
-  },
-  // Auth Routes
   {
     path: '/',
     element: <AuthLayout />,
     children: [
       { path: 'login', element: <Login /> },
-      { path: 'signup', element: <Signup /> },
       { path: 'forgot-password', element: <ForgotPassword /> },
-      { path: 'reset-password', element: <ResetPassword /> },
     ],
   },
-  // Protected Dashboard Routes
   {
     path: '/',
     element: <ProtectedRoute />,
     children: [
+      { index: true, element: <Navigate to="/apps" replace /> },
+      { path: 'apps', element: <AppLauncherPage /> },
       {
-        element: <DashboardLayout />,
+        path: 'crm',
+        element: <AppShell section="crm" />,
         children: [
-          { index: true, element: <Dashboard /> },
-          { path: 'profile', element: <ProfileFormPage /> },
-          { path: 'settings', element: <Settings /> },
-          { path: 'invoices', element: <Invoice /> },
-          { path: 'pricing', element: <Pricing /> },
-          { path: 'crm', element: <CRMLeadsPage /> },
-          { path: 'hrms', element: <HRMSPage /> },
-          { path: 'hrms/employees/list', element: <EmployeeListPage /> },
-          { path: 'hrms/employees/add', element: <AddEmployeePage /> },
-          { path: 'inventory', element: <InventoryPage /> },
-          { path: 'billing', element: <div className="p-8">Billing Module</div> },
+          { index: true, element: <Navigate to="/crm/dashboard" replace /> },
+          { path: 'dashboard', element: <CrmDashboardPage /> },
+          { path: 'leads', element: <LeadsListPage /> },
+          { path: 'leads/new', element: <LeadFormPage /> },
+          { path: 'leads/:id', element: <LeadDetailPage /> },
+          { path: 'leads/:id/edit', element: <LeadFormPage /> },
+          { path: 'companies', element: <CompaniesPage /> },
+          { path: 'companies/:id', element: <CompanyDetailPage /> },
+          { path: 'contacts', element: <ContactsPage /> },
+          { path: 'contacts/:id', element: <ContactDetailPage /> },
+          { path: 'pipeline', element: <PipelinePage /> },
+          { path: 'follow-ups', element: <FollowUpsPage /> },
+          { path: 'customers', element: <CustomersPage /> },
+          { path: 'customers/:id', element: <CustomerDetailPage /> },
+          { path: 'activities', element: <CrmActivitiesPage /> },
+          { path: 'communications', element: <CrmCommunicationsPage /> },
+          { path: 'campaigns', element: <CrmCampaignsPage /> },
+          { path: 'support', element: <CrmSupportPage /> },
+          { path: 'documents', element: <CrmDocumentsPage /> },
+          { path: 'segments', element: <CrmSegmentsPage /> },
+          { path: 'automation', element: <CrmAutomationPage /> },
+          { path: 'approvals', element: <CrmApprovalsPage /> },
+          { path: 'analytics', element: <CrmAnalyticsPage /> },
+          { path: 'admin', element: <CrmAdminPage /> },
+          { path: 'ai-assistant', element: <CrmAiAssistantPage /> },
+          { path: 'quotations', element: <CrmQuotationsPage /> },
+          { path: 'reports', element: <CrmReportsPage /> },
+          { path: 'settings', element: <CrmSettingsPage /> },
         ],
       },
+      {
+        path: 'sales',
+        element: <AppShell section="sales" />,
+        children: [
+          { index: true, element: <Navigate to="/sales/dashboard" replace /> },
+          { path: 'dashboard', element: <SalesDashboardPage /> },
+          { path: 'quotations', element: <SalesQuotationsPage /> },
+          { path: 'quotations/new', element: <SalesQuotationFormPage /> },
+          { path: 'quotations/:id', element: <SalesQuotationPreviewPage /> },
+          { path: 'quotations/:id/edit', element: <SalesQuotationFormPage /> },
+          { path: 'orders', element: <SalesOrdersPage /> },
+          { path: 'products-services', element: <SalesProductsPage /> },
+          { path: 'customers', element: <CustomersPage /> },
+          { path: 'subscriptions', element: <SalesSubscriptionsPage /> },
+          { path: 'reports', element: <SalesReportsPage /> },
+          { path: 'settings', element: <SalesSettingsPage /> },
+        ],
+      },
+      {
+        path: 'finance',
+        element: <AppShell section="finance" />,
+        children: [
+          { index: true, element: <Navigate to="/finance/dashboard" replace /> },
+          { path: 'dashboard', element: <FinanceDashboardPage /> },
+          { path: 'invoices', element: <InvoiceListPage /> },
+          { path: 'invoices/new', element: <InvoiceFormPage /> },
+          { path: 'invoices/:id', element: <InvoicePreviewPage /> },
+          { path: 'invoices/:id/edit', element: <InvoiceFormPage /> },
+          { path: 'payments', element: <PaymentsPage /> },
+          { path: 'expenses', element: <ExpensesPage /> },
+          { path: 'customer-ledger', element: <CustomerLedgerPage /> },
+          { path: 'supplier-ledger', element: <SupplierLedgerPage /> },
+          { path: 'accounting', element: <FinanceAccountingPage /> },
+          { path: 'payables', element: <FinancePayablesPage /> },
+          { path: 'banking', element: <FinanceBankingPage /> },
+          { path: 'compliance', element: <FinanceCompliancePage /> },
+          { path: 'planning-assets', element: <FinancePlanningAssetsPage /> },
+          { path: 'advanced-admin', element: <FinanceAdvancedAdminPage /> },
+          { path: 'reports', element: <FinanceReportsPage /> },
+          { path: 'settings', element: <FinanceSettingsPage /> },
+        ],
+      },
+      {
+        path: 'inventory',
+        element: <AppShell section="inventory" />,
+        children: [
+          { index: true, element: <Navigate to="/inventory/dashboard" replace /> },
+          { path: 'dashboard', element: <InventoryDashboardPage /> },
+          { path: 'catalog', element: <InventoryCatalogPage /> },
+          { path: 'tracking', element: <InventoryTrackingPage /> },
+          { path: 'products', element: <ProductsPage /> },
+          { path: 'products/new', element: <ProductFormPage /> },
+          { path: 'products/:id/edit', element: <ProductFormPage /> },
+          { path: 'stock', element: <StockPage /> },
+          { path: 'purchase', element: <PurchasePage /> },
+          { path: 'purchase-operations', element: <PurchaseOperationsPage /> },
+          { path: 'purchase/new', element: <PurchaseOrderFormPage /> },
+          { path: 'suppliers', element: <SuppliersPage /> },
+          { path: 'warehouses', element: <WarehousesPage /> },
+          { path: 'warehouse-operations', element: <WarehouseOperationsPage /> },
+          { path: 'fulfillment', element: <OrderFulfillmentPage /> },
+          { path: 'transfers', element: <TransfersPage /> },
+          { path: 'reports', element: <InventoryReportsPage /> },
+          { path: 'insights', element: <InventoryInsightsPage /> },
+          { path: 'settings', element: <InventorySettingsPage /> },
+        ],
+      },
+      {
+        path: 'services',
+        element: <AppShell section="services" />,
+        children: [
+          { index: true, element: <Navigate to="/services/dashboard" replace /> },
+          { path: 'dashboard', element: <ServicesDashboardPage /> },
+          { path: 'projects', element: <ProjectsPage /> },
+          { path: 'tasks', element: <TasksPage /> },
+          { path: 'helpdesk', element: <HelpdeskPage /> },
+          { path: 'field-service', element: <FieldServicePage /> },
+          { path: 'work-orders', element: <WorkOrdersPage /> },
+          { path: 'calendar', element: <ServiceCalendarPage /> },
+          { path: 'reports', element: <ServicesReportsPage /> },
+          { path: 'settings', element: <ServicesSettingsPage /> },
+        ],
+      },
+      {
+        path: 'hr',
+        element: <AppShell section="hr" />,
+        children: [
+          { index: true, element: <Navigate to="/hr/dashboard" replace /> },
+          { path: 'dashboard', element: <HrDashboardPage /> },
+          { path: 'employees', element: <EmployeesPage /> },
+          { path: 'recruitment', element: <RecruitmentPage /> },
+          { path: 'onboarding', element: <OnboardingPage /> },
+          { path: 'attendance', element: <AttendancePage /> },
+          { path: 'shifts', element: <ShiftRosterPage /> },
+          { path: 'leave', element: <LeavePage /> },
+          { path: 'payroll', element: <PayrollPage /> },
+          { path: 'performance', element: <PerformancePage /> },
+          { path: 'self-service', element: <SelfServicePage /> },
+          { path: 'departments', element: <DepartmentsPage /> },
+          { path: 'documents', element: <HrDocumentsPage /> },
+          { path: 'assets', element: <AssetsPage /> },
+          { path: 'reports', element: <HrReportsPage /> },
+          { path: 'settings', element: <HrSettingsPage /> },
+        ],
+      },
+      {
+        path: 'website',
+        element: <AppShell section="website" />,
+        children: [
+          { index: true, element: <Navigate to="/website/dashboard" replace /> },
+          { path: 'dashboard', element: <WebsiteDashboardPage /> },
+          { path: 'pages', element: <WebsitePagesPage /> },
+          { path: 'landing-pages', element: <LandingPagesPage /> },
+          { path: 'forms', element: <WebsiteFormsPage /> },
+          { path: 'submissions', element: <WebsiteSubmissionsPage /> },
+          { path: 'themes', element: <WebsiteThemesPage /> },
+          { path: 'seo-settings', element: <SeoSettingsPage /> },
+          { path: 'settings', element: <WebsiteSettingsPage /> },
+        ],
+      },
+      {
+        path: 'settings',
+        element: <AppShell section="settings" />,
+        children: [
+          { index: true, element: <Navigate to="/settings/company" replace /> },
+          { path: 'company', element: <CompanySettingsPage /> },
+          { path: 'users', element: <UsersSettingsPage /> },
+          { path: 'roles', element: <RolesSettingsPage /> },
+          { path: 'apps', element: <ActiveAppsSettingsPage /> },
+          { path: 'plan-usage', element: <PlanUsageSettingsPage /> },
+        ],
+      },
+      {
+        path: 'placeholder',
+        element: <AppShell section="placeholder" />,
+        children: [
+          { path: ':appSlug', element: <PlaceholderRedirect /> },
+        ],
+      },
+      { path: 'app/:appSlug', element: <LegacyAppRedirect /> },
     ],
   },
-  // Error Routes
   {
     path: '*',
     element: <ErrorLayout />,
@@ -77,6 +361,4 @@ const router = createHashRouter([
   },
 ]);
 
-export const AppRouter = () => {
-  return <RouterProvider router={router} />;
-};
+export const AppRouter = () => <RouterProvider router={router} />;

@@ -3,27 +3,27 @@ import { Outlet } from 'react-router-dom';
 
 const AuthLayout: React.FC = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/40 px-4 py-12 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Decorative background elements */}
-      <div className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px]" />
-      </div>
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-4 py-12 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_20%,rgba(79,70,229,0.32),transparent_28%),radial-gradient(circle_at_80%_10%,rgba(20,184,166,0.24),transparent_26%),linear-gradient(135deg,#020617,#0f172a)]" />
+      <div className="absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-t from-slate-950 to-transparent" />
 
-      <div className="w-full max-w-md space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-        <div className="text-center">
-          <div className="mx-auto h-12 w-12 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 mb-6">
-            <span className="text-primary-foreground font-bold text-2xl">E</span>
-          </div>
-          <h2 className="text-3xl font-extrabold tracking-tight text-foreground">
-            Enterprise SaaS
-          </h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Scalable solution for your business
+      <div className="grid w-full max-w-5xl gap-8 lg:grid-cols-[1fr_430px] lg:items-center">
+        <div className="hidden text-white lg:block">
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-teal-200">Indian SME SaaS workspace</p>
+          <h1 className="mt-4 text-5xl font-semibold tracking-tight">One launcher for every business app.</h1>
+          <p className="mt-5 max-w-xl text-base leading-7 text-slate-300">
+            Demo CRM, Sales, Billing, Inventory, HR, Services, Marketing, and Settings in a modular tenant product experience.
           </p>
         </div>
-        
-        <div className="bg-background shadow-xl rounded-2xl border p-8 backdrop-blur-sm bg-white/70 dark:bg-black/50">
+
+        <div className="w-full space-y-6 rounded-2xl border border-white/10 bg-white p-6 shadow-2xl">
+          <div className="text-center">
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-teal-500 text-xl font-bold text-white shadow-lg">
+              V
+            </div>
+            <h2 className="text-2xl font-bold tracking-tight text-slate-950">VumTech Business Suite</h2>
+            <p className="mt-2 text-sm text-slate-500">Demo tenant prototype</p>
+          </div>
           <Outlet />
         </div>
       </div>

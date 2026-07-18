@@ -1,0 +1,80 @@
+{
+  "modules": {
+    "crm": [
+      "leads",
+      "customers",
+      "followups",
+      "activities",
+      "quotations"
+    ],
+    "sales": [
+      "quotations",
+      "salesOrders",
+      "subscriptions",
+      "productsServices"
+    ],
+    "finance": [
+      "invoices",
+      "payments",
+      "expenses",
+      "ledgers"
+    ],
+    "inventory": [
+      "products",
+      "stock",
+      "purchaseOrders",
+      "suppliers",
+      "warehouses"
+    ],
+    "services": [
+      "projects",
+      "tasks",
+      "tickets",
+      "fieldVisits",
+      "workOrders"
+    ],
+    "hr": [
+      "employees",
+      "attendance",
+      "leaveRequests",
+      "payroll"
+    ],
+    "website": [
+      "pages",
+      "landingPages",
+      "forms",
+      "submissions"
+    ],
+    "marketing": [
+      "campaigns",
+      "templates",
+      "audiences"
+    ],
+    "productivity": [
+      "notes",
+      "documents",
+      "approvals",
+      "chatMessages"
+    ],
+    "studio": [
+      "customFields",
+      "workflows",
+      "automationRules"
+    ],
+    "industries": [
+      "pharmacy",
+      "gym",
+      "clinic",
+      "distributor",
+      "serviceCompany"
+    ]
+  },
+  "businessContext": {
+    "country": "India",
+    "currency": "INR",
+    "timezone": "Asia/Kolkata",
+    "gstEnabled": true,
+    "sampleCity": "Bhubaneswar",
+    "sampleState": "Odisha"
+  }
+}

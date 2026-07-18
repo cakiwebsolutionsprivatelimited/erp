@@ -15,7 +15,8 @@ import {
   UserCircle,
   Briefcase,
   Layers,
-  Component
+  Component,
+  Grid3X3
 } from 'lucide-react';
 import { cn } from '@/utils';
 
@@ -26,6 +27,7 @@ interface SidebarProps {
 
 const navItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
+  { icon: Grid3X3, label: 'Apps', path: '/apps' },
   { icon: Briefcase, label: 'CRM', path: '/crm' },
   { 
     icon: Users, 
